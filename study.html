@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" >
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+        <link href="./css/common.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container margin">
+
+            <div class="card"></div>
+            
+            <div class="row bottom-bg padding-bottom">
+                <div class="col-xs-6">
+                    Due: <span class="text-primary margin-right"><strong id="due"></strong></span>
+                </div>
+                <div class="col-xs-6">
+                    <span class="pull-right" id="deckName"></span>
+                </div>
+            </div>
+
+            <div class="row bottom-bg hidden" id="frontArea">
+                <div class="col-xs-4">            
+                    <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#editCard">Edit</button>
+                </div>
+                <div class="col-xs-4 padding-bottom">
+                    <button type="button" class="btn btn-default btn-sm" id="answer">Show answer</button>
+                </div>
+            </div>
+
+            <div id="backArea">
+                <div class="row bottom-bg">
+                    <div class="col-xs-3">
+                        <button type="button" class="btn btn-default pull-left btn-sm" data-toggle="modal" data-target="#editCard">Edit</button>
+                    </div>
+                    <div class="col-xs-6 padding-bottom text-center">
+                        <button type="button" class="btn btn-default btn-sm" id="again"><i class="fa fa-refresh text-warning"></i> Again</button>
+                        <button type="button" class="btn btn-default btn-sm" id="goodButton">
+                            <i class="fa fa-check text-success"></i> 
+                            Good
+                            (+<span id="addedTime"></span>)
+                        </button>
+                    </div>
+                </div>
+            </div>   
+
+            <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="finishedStudy">
+              <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-body text-center">
+                        <h4 class="modal-title">You have finished all the cards</h4>
+                        <button type="button" class="btn btn-primary btn-sm margin" data-dismiss="modal" id="">Return to Decks</button>
+                    </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal fade" id="editCard" tabindex="-1" role="dialog">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel"><i class="fa fa-file-text-o"></i> Edit card</h4>
+                  </div>
+
+                  <div class="modal-body">
+                     <div class="dropdown">
+                        <strong>Deck: </strong><span class="deckName"></span>
+                      </div>
+
+                      <hr class="divider"></hr>
+
+                      <div class="form-group">
+                         <label for="front" class="control-label">Front</label>
+                         <textarea class="form-control" id="front"></textarea>
+                      </div>
+
+                      <div class="form-group">   
+                         <label for="back" class="control-label">Back</label>
+                         <textarea class="form-control back" id="back"></textarea>
+                       </div>
+
+                       <div class="form-group">
+                           <label for="tag" class="control-label">Tags</label>
+                           <input type="text" class="form-control tag" id="tag">
+                       </div>
+
+
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default fa fa-exchange btn-exchange pull-left" data-toggle="tooltip" data-placement="right" title="Switch card sides" id="switch"></button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="edit-card">Save</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.min.js"></script>
+        <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="./js/study.js"></script>
+    </body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" >
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+        <link href="./css/common.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container">
+
+            <div class="leftMenu col-xs-4 margin border-right">
+              <div class="row">
+                <strong>Deck</strong>
+                <ul class="list" id="deckList"></ul>
+              </div>
+              <div class="row margin-top border-top padding-top">
+                <strong>Tags</strong>
+                <ul class="list" id="tagList"></ul>
+              </div>
+            </div>
+
+           
+            <div class="col-xs-8 margin">
+              <div class="row pull-right padding-bottom">
+                <a href="#">Copy <i class="fa fa-files-o"></i></a>
+                <a href="#">Move <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="#">Delete <i class="fa fa-times"></i></a>
+              </div>
+
+              <div class="row">
+                <form class="form-inline margin-left">
+                  <div class="form-group">
+                    <div class="input-group">
+                      <input type="text" class="form-control" id="searchInput" placeholder="Search">
+                      <div class="input-group-addon" id="searchBtn"><i class="fa fa-search"></i></div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+              <div class="row">
+                <table class="table table-striped table-condensed margin margin-left border-top">
+                 <thead>
+                    <tr>
+                        <th id="sort"><i class="fa fa-sort"></i> Found cards</th>
+                        <th class="text-right">Select all <input type="checkbox" id="selectAll"></th>
+                    </tr>
+                  </thead>
+                  <tbody id="results">
+                  </tbody>
+                </table>
+              </div>        
+            </div>
+
+            
+
+            
+        </div>
+
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.min.js"></script>
+        <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="./js/common.js"></script>
+        <script type="text/javascript" src="./js/browser.js"></script>
+    </body>
+</html>

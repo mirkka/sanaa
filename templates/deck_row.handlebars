@@ -1,0 +1,12 @@
+<div class="row margin deck">
+	<div class="col-xs-2">
+		<a href="./study.html?id={{_id}}" class="btn btn-primary btn-xs" role="button" {{#unless due}}disabled="disabled"{{/unless}}>Study</a>
+	</div>
+	<div class="col-xs-5">{{name}}</div>
+	<div class="col-xs-1 text-danger"><strong>{{due}}</strong></div>
+	<div class="col-xs-1 text-primary"><strong>{{cards.length}}</strong></div>
+	<div class="col-xs-3">
+		<button type="button" class="btn btn-default btn-xs edit" data-toggle="modal" data-target="#editDeckModal" data-id="{{_id}}">Edit</button>
+		<button type="button" class="btn btn-default btn-xs delete" data-toggle="modal" data-target="#deleteDeckModal" data-id="{{_id}}">Delete</button>
+	</div>			
+</div>

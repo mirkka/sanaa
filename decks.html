@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" >
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+        <link href="./css/common.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container margin">
+
+            <div class="row margin">
+                <div class="col-xs-5 col-xs-offset-2"><strong>Deck</strong></div>
+                <div class="col-xs-1"><strong>Due</strong></div>
+                <div class="col-xs-1"><strong>Total</strong></div>              
+            </div>
+
+            <div id="list"></div>
+            <div class="row col-xs-12 margin">
+                <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#createDeckModal">
+                  <i class="fa fa-plus"></i> Create deck
+                </button>
+                <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#createCard">
+                  <i class="fa fa-file-text-o"></i> Add card
+                </button>
+
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="createDeckModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create new deck</h4>
+                  </div>
+
+                  <div class="modal-body">
+                     <div class="form-group">
+                        <label for="deck-name" class="control-label">Name:</label>
+                        <input type="text" class="form-control" id="deck-name">
+                      </div>
+                  </div>
+
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="new">Save</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+        
+
+            <div class="modal fade" id="deleteDeckModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Delete deck</h4>
+                  </div>
+
+                  <div class="modal-body">
+                     Do you really want to delete: <strong class="deckName"></strong> ?
+                  </div>
+
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" id="delete">Delete</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal fade" id="editDeckModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Options</h4>
+                  </div>
+
+                  <div class="modal-body">
+                         <div class="form-group">
+                            <label for="deck-rename" class="control-label">Rename:</label>
+                            <input type="text" class="form-control deck-rename" id="deck-rename">
+                          </div>
+                          <div class="dropdown">
+                          <h4 class="modal-title" id="myModalLabel">Set daily card limit</h4>
+                            <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+                                <span class="limit"></span>
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                <li><a href="#">50</a></li>
+                                <li><a href="#">100</a></li>
+                                <li><a href="#">200</a></li>
+                            </ul>
+                          </div>
+                  </div>
+
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Discard</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="save">Save</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal fade" id="createCard" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel"><i class="fa fa-file-text-o"></i> New card</h4>
+                  </div>
+
+                  <div class="modal-body">
+                     <div class="dropdown">
+                         <h4 class="modal-title" id="myModalLabel">Deck</h4>
+                           <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+                               <span class="currentDeck"></span>
+                               <span class="caret"></span>
+                           </button>
+                           <ul class="dropdown-menu deckDropdown" role="menu" aria-labelledby="dLabel"></ul>
+                      </div>
+
+                      <hr class="divider"></hr>
+
+                      <div class="form-group">
+                         <label for="front" class="control-label">Front</label>
+                         <textarea class="form-control" id="front"></textarea>
+                      </div>
+
+                      <div class="form-group">   
+                         <label for="back" class="control-label">Back</label>
+                         <textarea class="form-control back" id="back"></textarea>
+                       </div>
+
+                       <div class="form-group">
+                           <label for="tag" class="control-label">Tags</label>
+                           <input type="text" class="form-control tag" id="tag">
+                       </div>
+
+
+                  <div class="modal-footer">
+                    <!--<button type="button" class="btn btn-default fa fa-exchange btn-exchange pull-left" data-toggle="tooltip" data-placement="right" title="Switch card sides" id="switch"></button>-->
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="add-card">Add</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+        </div>
+
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.min.js"></script>
+        <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="./js/common.js"></script>
+        <script type="text/javascript" src="./js/decks.js"></script>
+    </body>
+</html>
