@@ -14,8 +14,6 @@ var levelWeights = [
     day * 4,
     day * 7
 ];
-var cfront = $("#front");
-var cback = $("#back");
 
 // returns current card
 function cur() {
@@ -76,6 +74,40 @@ $.get('./templates/navigation.handlebars', function(response) {
     var nav = Handlebars.compile(response);
     var html = nav({isStudy: true});
     $(".container").prepend(html);
+});
+
+$.get('./templates/edit_card.handlebars', function(response) {
+    var edit = Handlebars.compile(response);
+    var modal = $(edit());
+    var cfront = modal.find("#front");
+    var cback = modal.find("#back");
+    $(".container").append(modal);
+
+    modal.on("shown.bs.modal", function() {
+        cfront.focus();
+        modal.find(".deckName").text(deck.name);
+        cfront.val(cur().front);
+        cback.val(cur().back);
+        modal.find("#tag").val(cur().tags.join(","));
+    });
+
+    modal.find("#edit-card").on("click", function() {
+        cur().front = cfront.val();
+        cur().back = cback.val();
+        cur().tags = modal.find("#tag").val().split(",");
+        updateCard(deck._id, cur(), function() {
+            createCard(cur());
+            $("#frontArea").removeClass("hidden");
+            $("#backArea").addClass("hidden");
+        });
+    });
+
+    modal.find("#switch").on("click", function (argument) {
+        var front = cfront.val();
+        var back = cback.val();
+        cback.val(front);
+        cfront.val(back);
+    });
 });
 
 $.get('./templates/study.handlebars', function(response) {
@@ -145,28 +177,3 @@ $("#again").on("click", function () {
     });
 });
 
-$("#editCard").on("shown.bs.modal", function() {
-    cfront.focus();
-    $(".deckName").text(deck.name);
-    cfront.val(cur().front);
-    cback.val(cur().back);
-    $("#tag").val(cur().tags.join(","));
-});
-
-$("#switch").on("click", function (argument) {
-    var front = cfront.val();
-    var back = cback.val();
-    cback.val(front);
-    cfront.val(back);
-});
-
-$("#edit-card").on("click", function() {
-    cur().front = cfront.val();
-    cur().back = cback.val();
-    cur().tags = $("#tag").val().split(",");
-    updateCard(deck._id, cur(), function() {
-        createCard(cur());
-        $("#frontArea").removeClass("hidden");
-        $("#backArea").addClass("hidden");
-    });
-});
