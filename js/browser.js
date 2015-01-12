@@ -8,7 +8,7 @@ var body = $("body");
 
 getAlldecks(function(allDecks) {
     data = allDecks;
-    selectedData = _.flatten(_.pluck(allDecks, "cards"))
+    selectedData = _.flatten(_.pluck(data, "cards"));
     var tags = _(data)
                 .pluck("cards") // all cards from all decks
                 .flatten()
@@ -26,7 +26,7 @@ getAlldecks(function(allDecks) {
 
     $.get('./templates/deck_list_options.handlebars', function(response) {
         var listTemplate = Handlebars.compile(response);
-        deckList.html(listTemplate(_.sortBy(allDecks, "name")));
+        deckList.html(listTemplate(_.sortBy(data, "name")));
         tagList.html(listTemplate(tags));
     });
 });
@@ -50,8 +50,15 @@ body.on("click", "#tagList a", function() {
 });
 
 body.on("click", ".list a", function() {
-    $(".list li").removeClass("active");
-    $(this).parent().addClass("active");
+    var li = $(this).parent();
+    if (li.is(".active")) {
+        li.removeClass("active");
+        results.find("tr").remove();
+        selectedData = _.flatten(_.pluck(data, "cards"));
+    } else {
+        $(".list li").removeClass("active");
+        li.addClass("active");
+    }
 });
 
 $.get('./templates/navigation.handlebars', function(response) {
