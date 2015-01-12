@@ -99,3 +99,7 @@ a.active {
 .list a:hover, .list a {
 	color: #337ab7;
 }
+
+.pointer {
+	cursor: pointer;
+}
