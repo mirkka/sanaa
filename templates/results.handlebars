@@ -1,10 +1,10 @@
 {{#each this}}
 <tr>
   <td>
-  	<a>{{front}}</a>
+  	<a class="pointer" data-toggle="modal" data-target="#editCard" data-id="{{_id}}">{{front}}</a>
   	<br>
   	<small>{{back}}</small>
   </td>
-  <td class="text-right"><input type="checkbox"></td>
+  <td class="text-right"><input type="checkbox" class="pointer"></td>
 </tr>
 {{/each}}
