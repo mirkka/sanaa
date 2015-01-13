@@ -2,9 +2,10 @@ var data;
 var resultsTemplate;
 var selectedData;
 var deckList = $("#deckList");
-var tagList =$("#tagList");
+var tagList = $("#tagList");
 var results = $("#results");
 var body = $("body");
+var number = $("#amount");
 
 getAlldecks(function(allDecks) {
     data = allDecks;
@@ -31,10 +32,15 @@ getAlldecks(function(allDecks) {
     });
 });
 
+function printResults(resultsData) {
+    number.text(resultsData.length);
+    results.html(resultsTemplate(resultsData));
+}
+
 body.on("click", "#deckList a", function() {
     var id = $(this).data("id");
     selectedData = _.find(data, {_id:id}).cards;
-    results.html(resultsTemplate(_.sortBy(selectedData, "front")));
+    printResults(_.sortBy(selectedData, "front"));
 });
 
 body.on("click", "#tagList a", function() {
@@ -46,15 +52,15 @@ body.on("click", "#tagList a", function() {
                     return _.contains(card.tags, tag);
                 })
                 .value();
-    results.html(resultsTemplate(_.sortBy(selectedData, "front")));
+    printResults(_.sortBy(selectedData, "front"));
 });
 
 body.on("click", ".list a", function() {
     var li = $(this).parent();
     if (li.is(".active")) {
         li.removeClass("active");
-        results.find("tr").remove();
         selectedData = _.flatten(_.pluck(data, "cards"));
+        printResults([]);
     } else {
         $(".list li").removeClass("active");
         li.addClass("active");
@@ -77,12 +83,12 @@ $("#searchInput").on("keyup", search);
 function search() {
     var needle = $("#searchInput").val();
     if (needle === "" && !$(".list li").is(".active")) {
-        results.find("tr").remove();
+        printResults([]);
         return;
     }
 
     if (needle === "") {
-        results.html(resultsTemplate(_.sortBy(selectedData, "front")));
+        printResults(_.sortBy(selectedData, "front"));
         return;
     }
     var filteredFronts = _.filter(selectedData, function(card) {
@@ -99,7 +105,7 @@ function search() {
         return y.back.indexOf(needle);
     });
 
-    results.html(resultsTemplate(_.unique(filteredFronts.concat(filteredBacks))));
+    printResults(_.unique(filteredFronts.concat(filteredBacks)));
 }
 
 $("#sort").on("click", function() {
