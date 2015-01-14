@@ -20,21 +20,6 @@ function cur() {
     return deck.cards[0];
 }
 
-// updates cardObject in deck with id deckID and executes success callback
-function updateCard(deckID, cardObject, successCallback) {
-    $.ajax({
-        type: "PUT",
-        url: "//words-on-cards.herokuapp.com/decks/" + deckID + "/cards/" + cardObject._id,
-        dataType: "json",
-        data: JSON.stringify(cardObject),
-        contentType: "application/json; charset=utf-8",
-        success: successCallback,
-        error: function(response) {
-            console.log(response);
-        }
-    });
-}
-
 function createCard(card) {
     cardContainer.html(template(card));
     $("#backArea, #frontArea").toggleClass("hidden");

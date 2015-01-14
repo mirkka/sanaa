@@ -8,3 +8,17 @@ function getAlldecks (successCallback) {
 	    }
 	});
 }
+
+function updateCard(deckID, cardObject, successCallback) {
+    $.ajax({
+        type: "PUT",
+        url: "//words-on-cards.herokuapp.com/decks/" + deckID + "/cards/" + cardObject._id,
+        dataType: "json",
+        data: JSON.stringify(cardObject),
+        contentType: "application/json; charset=utf-8",
+        success: successCallback,
+        error: function(response) {
+            console.log(response);
+        }
+    });
+}
