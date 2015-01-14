@@ -60,6 +60,7 @@ body.on("click", ".list a", function() {
     if (li.is(".active")) {
         li.removeClass("active");
         selectedData = _.flatten(_.pluck(data, "cards"));
+        $("#searchInput").val("");
         printResults([]);
     } else {
         $(".list li").removeClass("active");
@@ -115,4 +116,42 @@ $("#sort").on("click", function() {
 
 $("#selectAll").on("click", function() {
     results.find("input[type=checkbox]").prop("checked", $(this).is(":checked"));
+});
+
+$.get('./templates/edit_card.handlebars', function(response) {
+    var edit = Handlebars.compile(response);
+    var modal = $(edit());
+    var card;
+    var deck;
+    var cfront = modal.find("#front");
+    var cback = modal.find("#back");
+    $(".container").append(modal);
+
+    modal.on("shown.bs.modal", function(event) {
+        var result = $(event.relatedTarget);
+        var id = result.data('id');
+        card = _.find(selectedData, {_id:id});
+        deck = _.find(data, {cards: [card]});
+        cfront.focus();
+        cfront.val(card.front);
+        cback.val(card.back);
+        modal.find("#tag").val(card.tags.join(","));
+        modal.find(".deckName").text(deck.name);
+    });
+
+    modal.find("#edit-card").on("click", function() {
+        card.front = cfront.val();
+        card.back = cback.val();
+        card.tags = modal.find("#tag").val().split(",");
+        updateCard(deck._id, card, function() {
+            search();
+        });
+    });
+
+    modal.find("#switch").on("click", function (argument) {
+        var front = cfront.val();
+        var back = cback.val();
+        cback.val(front);
+        cfront.val(back);
+    });
 });
