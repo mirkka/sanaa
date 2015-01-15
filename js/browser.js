@@ -118,6 +118,11 @@ $("#selectAll").on("click", function() {
     results.find("input[type=checkbox]").prop("checked", $(this).is(":checked"));
 });
 
+body.on("click", "input[type=checkbox]", function() {
+    var isChecked = results.find("input[type=checkbox]").is(":checked");
+    $("#deleteCard").toggleClass("hidden", !isChecked);
+});
+
 $.get('./templates/edit_card.handlebars', function(response) {
     var edit = Handlebars.compile(response);
     var modal = $(edit());
@@ -153,5 +158,23 @@ $.get('./templates/edit_card.handlebars', function(response) {
         var back = cback.val();
         cback.val(front);
         cfront.val(back);
+    });
+});
+
+$("#deleteCardmodal").find("#delete").on("click", function() {
+    var tracker = 0; // keeps track of server success callback amount
+    results.find("input[type=checkbox]:checked").each(function (x, elem) {
+        tracker = tracker + 1;
+        var id = $(elem).data("id");
+        var card = _.find(selectedData, {_id:id});
+        var deck = _.find(data, {cards: [card]});
+        deleteCard(deck._id, card, function(argument) {
+            _.pull(selectedData, card);
+            tracker = tracker - 1;
+            if (tracker === 0) {
+                search();
+                $("#deleteCardmodal").modal("hide");
+            }
+        })
     });
 });

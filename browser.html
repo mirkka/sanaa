@@ -25,7 +25,7 @@
                 <a href="#">New Card <i class="fa fa-plus"></i></a>
                 <a href="#">Copy <i class="fa fa-files-o"></i></a>
                 <a href="#">Move <i class="fa fa-arrow-circle-right"></i></a>
-                <a href="#">Delete <i class="fa fa-times"></i></a>
+                <a href="#" id="deleteCard" data-toggle="modal" data-target="#deleteCardmodal" class="hidden">Delete <i class="fa fa-times"></i></a>
               </div>
 
               <div class="row">
@@ -53,7 +53,25 @@
               </div>        
             </div>
 
-            
+            <div class="modal fade" id="deleteCardmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Delete card</h4>
+                  </div>
+
+                  <div class="modal-body">
+                     Do you really want to delete this card(s) ?
+                  </div>
+
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="delete">Delete</button>
+                  </div>
+                </div>
+              </div>
+            </div>
 
             
         </div>

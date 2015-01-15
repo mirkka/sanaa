@@ -43,6 +43,16 @@ a.active {
 	color: rgb(141, 144, 147);
 }
 
+a:focus {
+	outline: 0;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+	color: #337ab7;
+}
+
 .btn-exchange {
 	font-size: 1.5em;
 }

@@ -22,3 +22,15 @@ function updateCard(deckID, cardObject, successCallback) {
         }
     });
 }
+
+function deleteCard(deckID, cardObject, successCallback) {
+    $.ajax({
+        type: "DELETE",
+        url: "//words-on-cards.herokuapp.com/decks/" + deckID + "/cards/" + cardObject._id,
+        crossDomain: true,
+        success: successCallback,
+        error: function(response) {
+            console.log(response);
+        }
+    });
+}
