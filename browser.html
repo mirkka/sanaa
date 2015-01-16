@@ -23,8 +23,8 @@
             <div class="col-xs-8 margin">
               <div class="row pull-right padding-bottom">
                 <a href="#">New Card <i class="fa fa-plus"></i></a>
-                <a href="#">Copy <i class="fa fa-files-o"></i></a>
-                <a href="#">Move <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="#" id="copyCard" class="hidden">Copy <i class="fa fa-files-o"></i></a>
+                <a href="#" id="moveCard" class="hidden">Move <i class="fa fa-arrow-circle-right"></i></a>
                 <a href="#" id="deleteCard" data-toggle="modal" data-target="#deleteCardmodal" class="hidden">Delete <i class="fa fa-times"></i></a>
               </div>
 
@@ -44,7 +44,7 @@
                  <thead>
                     <tr>
                         <th id="sort" class="pointer"><i class="fa fa-sort"></i> Found cards (<span id="amount">0</span>)</th>
-                        <th class="text-right">Select all <input type="checkbox" id="selectAll" class="pointer"></th>
+                        <th class="text-right">Select all <input type="checkbox" id="selectAll" class="pointer" disabled="disabled"></th>
                     </tr>
                   </thead>
                   <tbody id="results">

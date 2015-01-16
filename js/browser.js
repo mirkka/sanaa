@@ -35,6 +35,15 @@ getAlldecks(function(allDecks) {
 function printResults(resultsData) {
     number.text(resultsData.length);
     results.html(resultsTemplate(resultsData));
+    if (resultsData.length > 0) {
+        $("#selectAll").prop("disabled", false);
+    } else {
+        $("#selectAll").prop("disabled", true);
+    }
+    $("#selectAll").prop("checked", false);
+    $("#deleteCard").addClass("hidden");
+    $("#copyCard").addClass("hidden");
+    $("#moveCard").addClass("hidden");
 }
 
 body.on("click", "#deckList a", function() {
@@ -65,6 +74,7 @@ body.on("click", ".list a", function() {
     } else {
         $(".list li").removeClass("active");
         li.addClass("active");
+        $("#searchInput").val("");
     }
 });
 
@@ -121,6 +131,8 @@ $("#selectAll").on("click", function() {
 body.on("click", "input[type=checkbox]", function() {
     var isChecked = results.find("input[type=checkbox]").is(":checked");
     $("#deleteCard").toggleClass("hidden", !isChecked);
+    $("#copyCard").toggleClass("hidden", !isChecked);
+    $("#moveCard").toggleClass("hidden", !isChecked);
 });
 
 $.get('./templates/edit_card.handlebars', function(response) {
