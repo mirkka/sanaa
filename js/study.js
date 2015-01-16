@@ -40,8 +40,8 @@ function randomWeight() {
     } else {
         start = deck.cards[1].weight;
     }
-    if (deck.cards.length >= 10) {
-        end = deck.cards[9].weight;
+    if (deck.cards.length >= 7) {
+        end = deck.cards[6].weight;
     } else {
         end = deck.cards[deck.cards.length - 1].weight;
     }
