@@ -178,15 +178,76 @@ $("#deleteCardmodal").find("#delete").on("click", function() {
     results.find("input[type=checkbox]:checked").each(function (x, elem) {
         tracker = tracker + 1;
         var id = $(elem).data("id");
-        var card = _.find(selectedData, {_id:id});
-        var deck = _.find(data, {cards: [card]});
+        var deck = _.find(data, {cards: [{_id:id}]});
+        var card = _.find(deck.cards, {_id:id}); 
         deleteCard(deck._id, card, function(argument) {
-            _.pull(selectedData, card);
+            _.pull(deck.cards, card);
             tracker = tracker - 1;
             if (tracker === 0) {
                 search();
+                refreshTaglist();
                 $("#deleteCardmodal").modal("hide");
             }
         })
+    });
+});
+
+$.get('./templates/deck_list_options.handlebars', function(response) {
+    dropdown = Handlebars.compile(response);
+ });
+
+$.get('./templates/create_card.handlebars', function(response) {
+    var create = Handlebars.compile(response);
+    var modal = $(create());
+    var cfront = modal.find("#front");
+    var cback = modal.find("#back");
+    var ul = modal.find(".deckDropdown");
+    $(".container").append(modal);
+
+    modal.on("shown.bs.modal", function(event) {
+        cfront.focus();
+        ul.html(dropdown(_.sortBy(data, "name")));
+        $(".currentDeck").text(latestDeck.name);
+    });
+
+    $("body").on("click", "#createCardmodal .dropdown-menu a", function() {
+        var value = $(this).text();
+        var id = $(this).data("id");
+        latestDeck = _.find(data, {_id:id});
+        $(".currentDeck").text(value);
+    });
+
+    modal.find("#add-card").on("click", function () {
+        var card = {};
+        var deckId = latestDeck._id;
+        card.front = cfront.val();
+        card.back = cback.val();
+        card.weight = Date.now();
+        card.tags = modal.find("#tag").val().split(",");
+        card.level = 0;
+        cfront.focus();
+        $.ajax({
+            type: "POST",
+            url: "//words-on-cards.herokuapp.com/decks/" + deckId + "/cards",
+            dataType: "json",
+            data: JSON.stringify(card),
+            contentType: "application/json; charset=utf-8",
+            success: function(response) {
+                console.log(response);
+                var deck = _.find(data, {_id : deckId});
+                deck.cards.push(response);
+                cback.val("");
+                cfront.val("");
+                modal.find("#tag").val("");
+            },
+            error: function(response) {
+                console.log(response);
+            }
+        });
+    });
+
+    modal.on('hidden.bs.modal', function () {
+        search();
+        refreshTaglist();
     });
 });

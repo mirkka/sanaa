@@ -149,57 +149,61 @@ $("#save").on("click", function() {
     }
 });
 
-$("#createCard").on('shown.bs.modal', function() {
-    cfront.focus();
-    ul.html(dropdown(_.sortBy(data, "name")));
-    $(".currentDeck").text(latestDeck.name);
+$.get('./templates/create_card.handlebars', function(response) {
+    var create = Handlebars.compile(response);
+    var modal = $(create());
+    var cfront = modal.find("#front");
+    var cback = modal.find("#back");
+    var ul = modal.find(".deckDropdown");
+    $(".container").append(modal);
+
+    modal.on("shown.bs.modal", function(event) {
+        cfront.focus();
+        ul.html(dropdown(_.sortBy(data, "name")));
+        $(".currentDeck").text(latestDeck.name);
+    });
+
+    $("body").on("click", "#createCardmodal .dropdown-menu a", function() {
+        var value = $(this).text();
+        var id = $(this).data("id");
+        latestDeck = _.find(data, {_id:id});
+        $(".currentDeck").text(value);
+    });
+
+    modal.find("#add-card").on("click", function () {
+        var card = {};
+        var deckId = latestDeck._id;
+        card.front = cfront.val();
+        card.back = cback.val();
+        card.weight = Date.now();
+        card.tags = modal.find("#tag").val().split(",");
+        card.level = 0;
+        cfront.focus();
+        $.ajax({
+            type: "POST",
+            url: "//words-on-cards.herokuapp.com/decks/" + deckId + "/cards",
+            dataType: "json",
+            data: JSON.stringify(card),
+            contentType: "application/json; charset=utf-8",
+            success: function(response) {
+                console.log(response);
+                var deck = _.find(data, {_id : deckId});
+                deck.cards.push(response);
+                cback.val("");
+                cfront.val("");
+                modal.find("#tag").val("");
+            },
+            error: function(response) {
+                console.log(response);
+            }
+        });
+    });
 });
 
-$("body").on("click", "#createCard .dropdown-menu a", function() {
-    var value = $(this).text();
-    var id = $(this).data("id");
-    latestDeck = _.find(data, {_id:id});
-    $(".currentDeck").text(value);
-});
+
 
 $(function () {
   $('[data-toggle="tooltip"]').tooltip();
-});
-
-$("#switch").on("click", function (argument) {
-    var front = cfront.val();
-    var back = cback.val();
-    cback.val(front);
-    cfront.val(back);
-});
-
-$("#add-card").on("click", function () {
-    var card = {};
-    var deckId = latestDeck._id;
-    card.front = cfront.val();
-    card.back = cback.val();
-    card.weight = Date.now();
-    card.tags = $("#tag").val().split(",");
-    card.level = 0;
-    cfront.focus();
-    $.ajax({
-        type: "POST",
-        url: "//words-on-cards.herokuapp.com/decks/" + deckId + "/cards",
-        dataType: "json",
-        data: JSON.stringify(card),
-        contentType: "application/json; charset=utf-8",
-        success: function(response) {
-            console.log(response);
-            var deck = _.find(data, {_id : deckId});
-            deck.cards.push(response);
-            cback.val("");
-            cfront.val("");
-            $("#tag").val("");
-        },
-        error: function(response) {
-            console.log(response);
-        }
-    });
 });
 
 $("#createCard").on('hide.bs.modal', function() {
