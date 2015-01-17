@@ -4,13 +4,9 @@ var dropdown;
 var id;
 var list = $("#list");
 var deckName = $("#deck-name");
-var ul = $(".deckDropdown");
 var hour = 1000 * 60 * 60;
 var dueDate = Date.now() + hour;
 var latestDeck;
-var cfront =$("#front");
-var cback = $("#back");
-
 
 $.get('./templates/deck_list_options.handlebars', function(response) {
     dropdown = Handlebars.compile(response);

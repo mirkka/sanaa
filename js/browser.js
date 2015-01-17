@@ -1,15 +1,30 @@
 var data;
 var resultsTemplate;
-var selectedData;
+var selectedFilter;
 var deckList = $("#deckList");
 var tagList = $("#tagList");
 var results = $("#results");
 var body = $("body");
 var number = $("#amount");
+var latestDeck;
+var listTemplate;
 
 getAlldecks(function(allDecks) {
     data = allDecks;
-    selectedData = _.flatten(_.pluck(data, "cards"));
+    selectedFilter = function() {
+        return _.flatten(_.pluck(data, "cards"));
+    }
+    $.get('./templates/deck_list_options.handlebars', function(response) {
+        listTemplate = Handlebars.compile(response);
+        deckList.html(listTemplate(_.sortBy(data, "name")));
+        refreshTaglist();
+    });
+
+    latestDeck = _.sortBy(data, "creationTime")[data.length - 1];
+});
+
+function refreshTaglist() {
+    var previouslyActive = tagList.find(".active").text();
     var tags = _(data)
                 .pluck("cards") // all cards from all decks
                 .flatten()
@@ -24,13 +39,11 @@ getAlldecks(function(allDecks) {
                         _id:tag
                     }
                 }).value();
-
-    $.get('./templates/deck_list_options.handlebars', function(response) {
-        var listTemplate = Handlebars.compile(response);
-        deckList.html(listTemplate(_.sortBy(data, "name")));
-        tagList.html(listTemplate(tags));
-    });
-});
+    tagList.html(listTemplate(tags));
+    if (previouslyActive !== "") {
+        tagList.find(":contains('"+ previouslyActive + "')").addClass("active");
+    }
+}
 
 function printResults(resultsData) {
     number.text(resultsData.length);
@@ -48,27 +61,33 @@ function printResults(resultsData) {
 
 body.on("click", "#deckList a", function() {
     var id = $(this).data("id");
-    selectedData = _.find(data, {_id:id}).cards;
-    printResults(_.sortBy(selectedData, "front"));
+    selectedFilter = function() {
+        return _.find(data, {_id:id}).cards;
+    }
+    latestDeck = _.find(data, {_id:id});
+    printResults(_.sortBy(selectedFilter(), "front"));
 });
 
 body.on("click", "#tagList a", function() {
     var tag = $(this).data("id");
-    selectedData = _(data)
-                .pluck("cards") // all cards from all decks
-                .flatten()
-                .filter(function(card) {
-                    return _.contains(card.tags, tag);
-                })
-                .value();
-    printResults(_.sortBy(selectedData, "front"));
+    selectedFilter = function() {
+        return _(data)
+            .pluck("cards") // all cards from all decks
+            .flatten()
+            .filter(function(card) {
+                return _.contains(card.tags, tag.toString());
+            }).value();
+    } 
+    printResults(_.sortBy(selectedFilter(), "front"));
 });
 
 body.on("click", ".list a", function() {
     var li = $(this).parent();
     if (li.is(".active")) {
         li.removeClass("active");
-        selectedData = _.flatten(_.pluck(data, "cards"));
+        selectedFilter = function() {
+            return _.flatten(_.pluck(data, "cards"));
+        }
         $("#searchInput").val("");
         printResults([]);
     } else {
@@ -92,6 +111,7 @@ $("#searchBtn").on("click", search);
 $("#searchInput").on("keyup", search);
 
 function search() {
+    var selectedData = selectedFilter();
     var needle = $("#searchInput").val();
     if (needle === "" && !$(".list li").is(".active")) {
         printResults([]);
@@ -147,8 +167,8 @@ $.get('./templates/edit_card.handlebars', function(response) {
     modal.on("shown.bs.modal", function(event) {
         var result = $(event.relatedTarget);
         var id = result.data('id');
-        card = _.find(selectedData, {_id:id});
-        deck = _.find(data, {cards: [card]});
+        deck = _.find(data, {cards: [{_id:id}]});
+        card = _.find(deck.cards, {_id:id});   
         cfront.focus();
         cfront.val(card.front);
         cback.val(card.back);
@@ -161,6 +181,7 @@ $.get('./templates/edit_card.handlebars', function(response) {
         card.back = cback.val();
         card.tags = modal.find("#tag").val().split(",");
         updateCard(deck._id, card, function() {
+            refreshTaglist();
             search();
         });
     });
