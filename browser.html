@@ -21,11 +21,16 @@
 
            
             <div class="col-xs-8 margin">
-              <div class="row pull-right padding-bottom">
-                <a href="#" id="newCard" data-toggle="modal" data-target="#createCardmodal">New Card <i class="fa fa-plus"></i></a>
-                <a href="#" id="copyCard" class="hidden">Copy <i class="fa fa-files-o"></i></a>
-                <a href="#" id="moveCard" class="hidden">Move <i class="fa fa-arrow-circle-right"></i></a>
-                <a href="#" id="deleteCard" data-toggle="modal" data-target="#deleteCardmodal" class="hidden">Delete <i class="fa fa-times"></i></a>
+              <div class="row padding-bottom">
+                <div class="pull-left margin-left">
+                  <button type="button" class="btn btn-default btn-xs" id="newDeck" title="Create New deck"><i class="fa fa-plus"></i></button>
+                  <button type="button" class="btn btn-default btn-xs" id="editDeck" title="Edit deck"><i class="fa fa-pencil"></i></button>
+                </div>
+                <div class="pull-right">
+                  <button type="button" class="btn btn-default btn-xs" id="newCard" data-toggle="modal" data-target="#createCardmodal" title="Create New card"><i class="fa fa-file-text-o"></i></button>
+                  <button type="button" class="btn btn-default btn-xs hidden" id="moveCard" title="Copy or Move card"><i class="fa fa-files-o"></i></button>
+                  <button type="button" class="btn btn-default btn-xs hidden" id="deleteCard" data-toggle="modal" data-target="#deleteCardmodal" title="Delete card"><i class="fa fa-trash-o"></i></button>
+                </div>
               </div>
 
               <div class="row">
