@@ -228,14 +228,14 @@ $.get('./templates/create_card.handlebars', function(response) {
     modal.on("shown.bs.modal", function(event) {
         cfront.focus();
         ul.html(dropdown(_.sortBy(data, "name")));
-        $(".currentDeck").text(latestDeck.name);
+        modal.find(".currentDeck").text(latestDeck.name);
     });
 
     $("body").on("click", "#createCardmodal .dropdown-menu a", function() {
         var value = $(this).text();
         var id = $(this).data("id");
         latestDeck = _.find(data, {_id:id});
-        $(".currentDeck").text(value);
+        modal.find(".currentDeck").text(value);
     });
 
     modal.find("#add-card").on("click", function () {
@@ -261,4 +261,46 @@ $.get('./templates/create_card.handlebars', function(response) {
         search();
         refreshTaglist();
     });
+});
+
+$.get('./templates/move_card.handlebars', function(response) {
+    var move = Handlebars.compile(response);
+    var modal = $(move());
+    var ul = modal.find(".deckDropdown");
+    $(".container").append(modal);
+
+    modal.on("show.bs.modal", function(event) {
+        ul.html(dropdown(_.sortBy(data, "name")));
+        modal.find(".currentDeck").text(latestDeck.name);
+    });
+
+    $("body").on("click", "#moveCardmodal .dropdown-menu a", function() {
+        var value = $(this).text();
+        var id = $(this).data("id");
+        latestDeck = _.find(data, {_id:id});
+        modal.find(".currentDeck").text(value);       
+    });
+
+    modal.find("#copyCard").on("click", function() {
+        var tracker = 0;
+        results.find("input[type=checkbox]:checked").each(function (x, elem) {
+            tracker = tracker + 1;
+            var id = $(elem).data("id");
+            var deck = _.find(data, {cards: [{_id:id}]});
+            var card = _.find(deck.cards, {_id:id});
+            var clonedCard = _.cloneDeep(card);
+            clonedCard.weight = Date.now();
+            clonedCard.level = 0;
+            console.log(card, clonedCard, card === clonedCard);
+            createCard(latestDeck._id, clonedCard, function(response) {
+                tracker = tracker - 1;
+                latestDeck.cards.push(response);
+                if (tracker === 0) {
+                    modal.modal("hide");
+                    search();
+                }
+                console.log(response);
+            })
+        });
+    })
 });

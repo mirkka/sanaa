@@ -1,0 +1,25 @@
+<div class="modal fade" id="moveCardmodal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title"><i class="fa fa-file-text-o"></i> Copy / Move card(s)</h4>
+            </div>
+            <div class="modal-body">
+                <div class="dropdown">
+                    <h4 class="modal-title">To deck</h4>
+                    <button id="dLabel" type="button" data-toggle="dropdown" role="button">
+                    <span class="currentDeck"></span>
+                    <span class="caret"></span>
+                    </button>
+                <ul class="dropdown-menu deckDropdown" role="menu"></ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Discard</button>
+                <button type="button" class="btn btn-primary" id="copyCard">Copy</button>
+                <strong> or </strong>
+                <button type="button" class="btn btn-primary" id="moveCard">Move</button>
+            </div>
+        </div>
+    </div>
+</div>
