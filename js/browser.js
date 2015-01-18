@@ -210,7 +210,7 @@ $("#deleteCardmodal").find("#delete").on("click", function() {
                 refreshTaglist();
                 $("#deleteCardmodal").modal("hide");
             }
-        })
+        });
     });
 });
 
@@ -292,7 +292,6 @@ $.get('./templates/move_card.handlebars', function(response) {
             var clonedCard = _.cloneDeep(card);
             clonedCard.weight = Date.now();
             clonedCard.level = 0;
-            console.log(card, clonedCard, card === clonedCard);
             createCard(latestDeck._id, clonedCard, function(response) {
                 tracker = tracker - 1;
                 latestDeck.cards.push(response);
@@ -300,8 +299,28 @@ $.get('./templates/move_card.handlebars', function(response) {
                     modal.modal("hide");
                     search();
                 }
-                console.log(response);
-            })
+            });
         });
-    })
+    });
+
+    modal.find("#moveCard").on("click", function() {
+        var tracker = 0;
+        results.find("input[type=checkbox]:checked").each(function (x, elem) {
+            tracker = tracker + 1;
+            var id = $(elem).data("id");
+            var deck = _.find(data, {cards: [{_id:id}]});
+            var card = _.find(deck.cards, {_id:id});
+            createCard(latestDeck._id, card, function(createResponse) {
+                deleteCard(deck._id, card, function(deleteResponse) {
+                    tracker = tracker - 1;
+                    _.pull(deck.cards, card);
+                    latestDeck.cards.push(createResponse);
+                    if (tracker === 0) {
+                        modal.modal("hide");
+                        search();
+                    }
+                });
+            });
+        });
+    });
 });
