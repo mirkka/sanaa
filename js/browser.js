@@ -247,23 +247,13 @@ $.get('./templates/create_card.handlebars', function(response) {
         card.tags = modal.find("#tag").val().split(",");
         card.level = 0;
         cfront.focus();
-        $.ajax({
-            type: "POST",
-            url: "//words-on-cards.herokuapp.com/decks/" + deckId + "/cards",
-            dataType: "json",
-            data: JSON.stringify(card),
-            contentType: "application/json; charset=utf-8",
-            success: function(response) {
-                console.log(response);
-                var deck = _.find(data, {_id : deckId});
-                deck.cards.push(response);
-                cback.val("");
-                cfront.val("");
-                modal.find("#tag").val("");
-            },
-            error: function(response) {
-                console.log(response);
-            }
+        createCard(deckId, card, function(response) {
+            console.log(response);
+            var deck = _.find(data, {_id : deckId});
+            deck.cards.push(response);
+            cback.val("");
+            cfront.val("");
+            modal.find("#tag").val("");
         });
     });
 

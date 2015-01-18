@@ -1,13 +1,28 @@
 function getAlldecks (successCallback) {
-	$.ajax({
-		type: "GET",
-	    url: "//words-on-cards.herokuapp.com/decks",
-	    success: successCallback,
-	    error: function(response) {
-	    	console.log(response);
-	    }
-	});
+    $.ajax({
+        type: "GET",
+        url: "//words-on-cards.herokuapp.com/decks",
+        success: successCallback,
+        error: function(response) {
+            console.log(response);
+        }
+    });
 }
+
+function createCard(deckId, cardObject, successCallback) {
+    $.ajax({
+        type: "POST",
+        url: "//words-on-cards.herokuapp.com/decks/" + deckId + "/cards",
+        dataType: "json",
+        data: JSON.stringify(cardObject),
+        contentType: "application/json; charset=utf-8",
+        success: successCallback,
+        error: function(response) {
+            console.log(response);
+        }
+    });
+}
+
 
 function updateCard(deckID, cardObject, successCallback) {
     $.ajax({
