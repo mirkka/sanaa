@@ -125,13 +125,14 @@ function search() {
     var filteredFronts = _.filter(selectedData, function(card) {
         return card.front.indexOf(needle) > -1;
     });
+    filteredFronts = _.sortBy(filteredFronts, "front");
     filteredFronts = _.sortBy(filteredFronts, function(x) {
         return x.front.indexOf(needle);
     });
     var filteredBacks = _.filter(selectedData, function(card) {
         return card.back.indexOf(needle) > -1;
     });
-
+    filteredBacks = _.sortBy(filteredBacks, "back");
     filteredBacks = _.sortBy(filteredBacks, function(y) {
         return y.back.indexOf(needle);
     });
