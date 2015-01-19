@@ -39,10 +39,10 @@ function createList() {
         var html = template(object);
         list.append(html);
     });
- } 
+ }
 
 $('#createDeckModal').on('shown.bs.modal', function () {
-    $('#deck-name').focus()
+    $('#deck-name').focus();
 });
 
 $("#new").on("click", createDeck);
@@ -61,7 +61,7 @@ function createDeck() {
         cards : [],
         limit : 100
     };
-    
+
     $.ajax({
         type: "POST",
         url: "//words-on-cards.herokuapp.com/decks",
@@ -79,7 +79,7 @@ function createDeck() {
             console.log(response);
         }
     });
-};
+}
 
 $('#deleteDeckModal').on('show.bs.modal', function (event) {
   var button = $(event.relatedTarget);// Button that triggered the modal
@@ -141,7 +141,7 @@ $("#save").on("click", function() {
                 alert("unsaved");
                 console.log(response);
             }
-        });     
+        });
     }
 });
 

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" >
-        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-        <link href="./css/common.css" rel="stylesheet">
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="./css/common.css" rel="stylesheet" type="text/css">
+        <title>Browser</title>
     </head>
     <body>
         <div class="container margin">
-
             <div class="leftMenu col-xs-4 margin border-right">
               <div class="row">
                 <strong>Deck</strong>
@@ -19,7 +19,6 @@
               </div>
             </div>
 
-           
             <div class="col-xs-8 margin">
               <div class="row padding-bottom">
                 <div class="pull-left margin-left">
@@ -34,7 +33,7 @@
               </div>
 
               <div class="row">
-                <form class="form-inline margin-left">
+                <form class="form-inline margin-left" action="">
                   <div class="form-group">
                     <div class="input-group">
                       <input type="text" class="form-control" id="searchInput" placeholder="Search">
@@ -55,14 +54,14 @@
                   <tbody id="results">
                   </tbody>
                 </table>
-              </div>        
+              </div>
             </div>
 
-            <div class="modal fade" id="deleteCardmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal fade" id="deleteCardmodal" role="dialog">
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span><span class="sr-only">Close</span></button>
                     <h4 class="modal-title" id="myModalLabel">Delete card</h4>
                   </div>
 
@@ -77,8 +76,6 @@
                 </div>
               </div>
             </div>
-
-            
         </div>
 
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>

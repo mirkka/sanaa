@@ -7,7 +7,7 @@ var hour = 1000 * 60 * 60;
 var day = hour * 24;
 var dueDate = Date.now() + hour;
 var levelWeights = [
-    1000 * 60 * 10, 
+    1000 * 60 * 10,
     1000 * 60 * 10,
     day,
     day * 3,
@@ -50,9 +50,9 @@ function randomWeight() {
 }
 
 for (var i = 0; i < params.length; i++) {
-    if (params[i].indexOf("id=") > -1) { 
+    if (params[i].indexOf("id=") > -1) {
         id = params[i].substr(3);
-    }   
+    }
 }
 
 $.get('./templates/navigation.handlebars', function(response) {
@@ -161,4 +161,3 @@ $("#again").on("click", function () {
         createCard(cur());
     });
 });
-

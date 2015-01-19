@@ -13,7 +13,7 @@ getAlldecks(function(allDecks) {
     data = allDecks;
     selectedFilter = function() {
         return _.flatten(_.pluck(data, "cards"));
-    }
+    };
     $.get('./templates/deck_list_options.handlebars', function(response) {
         listTemplate = Handlebars.compile(response);
         deckList.html(listTemplate(_.sortBy(data, "name")));
@@ -37,7 +37,7 @@ function refreshTaglist() {
                     return {
                         name:tag,
                         _id:tag
-                    }
+                    };
                 }).value();
     tagList.html(listTemplate(tags));
     if (previouslyActive !== "") {
@@ -63,7 +63,7 @@ body.on("click", "#deckList a", function() {
     var id = $(this).data("id");
     selectedFilter = function() {
         return _.find(data, {_id:id}).cards;
-    }
+    };
     latestDeck = _.find(data, {_id:id});
     printResults(_.sortBy(selectedFilter(), "front"));
 });
@@ -77,7 +77,7 @@ body.on("click", "#tagList a", function() {
             .filter(function(card) {
                 return _.contains(card.tags, tag.toString());
             }).value();
-    } 
+    };
     printResults(_.sortBy(selectedFilter(), "front"));
 });
 
@@ -87,7 +87,7 @@ body.on("click", ".list a", function() {
         li.removeClass("active");
         selectedFilter = function() {
             return _.flatten(_.pluck(data, "cards"));
-        }
+        };
         $("#searchInput").val("");
         printResults([]);
     } else {
@@ -169,7 +169,7 @@ $.get('./templates/edit_card.handlebars', function(response) {
         var result = $(event.relatedTarget);
         var id = result.data('id');
         deck = _.find(data, {cards: [{_id:id}]});
-        card = _.find(deck.cards, {_id:id});   
+        card = _.find(deck.cards, {_id:id});
         cfront.focus();
         cfront.val(card.front);
         cback.val(card.back);
@@ -201,7 +201,7 @@ $("#deleteCardmodal").find("#delete").on("click", function() {
         tracker = tracker + 1;
         var id = $(elem).data("id");
         var deck = _.find(data, {cards: [{_id:id}]});
-        var card = _.find(deck.cards, {_id:id}); 
+        var card = _.find(deck.cards, {_id:id});
         deleteCard(deck._id, card, function(argument) {
             _.pull(deck.cards, card);
             tracker = tracker - 1;
@@ -279,7 +279,7 @@ $.get('./templates/move_card.handlebars', function(response) {
         var value = $(this).text();
         var id = $(this).data("id");
         latestDeck = _.find(data, {_id:id});
-        modal.find(".currentDeck").text(value);       
+        modal.find(".currentDeck").text(value);
     });
 
     modal.find("#copyCard").on("click", function() {
