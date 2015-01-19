@@ -49,3 +49,17 @@ function deleteCard(deckID, cardObject, successCallback) {
         }
     });
 }
+
+function createDeck(deck, successCallback) {
+    $.ajax({
+        type: "POST",
+        url: "//words-on-cards.herokuapp.com/decks",
+        dataType: "json",
+        data: JSON.stringify(deck),
+        contentType: "application/json; charset=utf-8",
+        success: successCallback,
+        error: function(response) {
+            console.log(response);
+        }
+    });
+}

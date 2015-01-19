@@ -45,39 +45,26 @@ $('#createDeckModal').on('shown.bs.modal', function () {
     $('#deck-name').focus();
 });
 
-$("#new").on("click", createDeck);
+$("#new").on("click", addDeck);
 
 deckName.on("keypress", function (event){
     if (event.which === 13) {
-        createDeck();
+        addDeck();
         $('#createDeckModal').modal("hide");
     }
 });
 
-function createDeck() {
+function addDeck(argument) {
     var deck = {
         name : deckName.val(),
-        due : 0,
         cards : [],
         limit : 100
     };
-
-    $.ajax({
-        type: "POST",
-        url: "//words-on-cards.herokuapp.com/decks",
-        dataType: "json",
-        data: JSON.stringify(deck),
-        contentType: "application/json; charset=utf-8",
-        success: function(response) {
-            data.push(response);
-            createList();
-            deckName.val("");
-            latestDeck = response;
-        },
-        error: function(response) {
-            alert("unsaved");
-            console.log(response);
-        }
+    createDeck(deck, function(response) {
+        data.push(response);
+        createList();
+        deckName.val("");
+        latestDeck = response;
     });
 }
 
