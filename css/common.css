@@ -75,6 +75,10 @@ a:hover {
 	visibility: hidden;
 }
 
+.disabled {
+	opacity: 0.5;
+}
+
 .padding-top {
 	padding-top: 10px;
 }

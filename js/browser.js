@@ -16,12 +16,20 @@ getAlldecks(function(allDecks) {
     };
     $.get('./templates/deck_list_options.handlebars', function(response) {
         listTemplate = Handlebars.compile(response);
-        deckList.html(listTemplate(_.sortBy(data, "name")));
         refreshTaglist();
+        refreshDeckList();
     });
 
     latestDeck = _.sortBy(data, "creationTime")[data.length - 1];
 });
+
+function refreshDeckList() {
+    var previouslyActive = deckList.find(".active").text();
+    deckList.html(listTemplate(_.sortBy(data, "name")));
+    if (previouslyActive !== "") {
+        deckList.find(":contains('"+ previouslyActive + "')").addClass("active");
+    }
+}
 
 function refreshTaglist() {
     var previouslyActive = tagList.find(".active").text();
@@ -273,6 +281,7 @@ $.get('./templates/move_card.handlebars', function(response) {
     modal.on("show.bs.modal", function(event) {
         ul.html(dropdown(_.sortBy(data, "name")));
         modal.find(".currentDeck").text(latestDeck.name);
+        modal.find("#deck-name").val("").trigger("keyup");
     });
 
     $("body").on("click", "#moveCardmodal .dropdown-menu a", function() {
@@ -284,6 +293,8 @@ $.get('./templates/move_card.handlebars', function(response) {
 
     modal.find("#copyCard").on("click", function() {
         var tracker = 0;
+        var newCards = [];
+        var newDeckName = modal.find("#deck-name").val();
         results.find("input[type=checkbox]:checked").each(function (x, elem) {
             tracker = tracker + 1;
             var id = $(elem).data("id");
@@ -292,35 +303,89 @@ $.get('./templates/move_card.handlebars', function(response) {
             var clonedCard = _.cloneDeep(card);
             clonedCard.weight = Date.now();
             clonedCard.level = 0;
-            createCard(latestDeck._id, clonedCard, function(response) {
-                tracker = tracker - 1;
-                latestDeck.cards.push(response);
-                if (tracker === 0) {
-                    modal.modal("hide");
-                    search();
-                }
-            });
+            newCards.push(clonedCard);
         });
-    });
-
-    modal.find("#moveCard").on("click", function() {
-        var tracker = 0;
-        results.find("input[type=checkbox]:checked").each(function (x, elem) {
-            tracker = tracker + 1;
-            var id = $(elem).data("id");
-            var deck = _.find(data, {cards: [{_id:id}]});
-            var card = _.find(deck.cards, {_id:id});
-            createCard(latestDeck._id, card, function(createResponse) {
-                deleteCard(deck._id, card, function(deleteResponse) {
+        if (newDeckName === "") {
+            _.each(newCards, function(singleClonedCard) {
+                createCard(latestDeck._id, singleClonedCard, function(response) {
                     tracker = tracker - 1;
-                    _.pull(deck.cards, card);
-                    latestDeck.cards.push(createResponse);
+                    latestDeck.cards.push(response);
                     if (tracker === 0) {
                         modal.modal("hide");
                         search();
                     }
                 });
             });
+        } else {
+            var newDeck = {
+                name : newDeckName,
+                cards : newCards,
+                limit : 100
+            };
+            createDeck(newDeck, function(response) {
+                data.push(response);
+                modal.modal("hide");
+                refreshDeckList();
+                search();
+            });
+        }
+    });
+
+    modal.find("#deck-name").on("keyup", function() {
+        if ($(this).val() === "") {
+            modal.find("#deckDropdowBtn").removeClass("disabled").prop("disabled", false);
+        } else {
+            modal.find("#deckDropdowBtn").addClass("disabled").prop("disabled", true);
+        }
+    });
+
+    modal.find("#moveCard").on("click", function() {
+        var tracker = 0;
+        var newCards = [];
+        var newDeckName = modal.find("#deck-name").val();
+        results.find("input[type=checkbox]:checked").each(function (x, elem) {
+            tracker = tracker + 1;
+            var id = $(elem).data("id");
+            var deck = _.find(data, {cards: [{_id:id}]});
+            var card = _.find(deck.cards, {_id:id});
+            newCards.push(card);
         });
+        if (newDeckName === "") {
+            _.each(newCards, function(singleCard) {
+                var deck = _.find(data, {cards: [{_id:singleCard._id}]});
+                createCard(latestDeck._id, singleCard, function(createResponse) {
+                    deleteCard(deck._id, singleCard, function(deleteResponse) {
+                        tracker = tracker - 1;
+                        _.pull(deck.cards, singleCard);
+                        latestDeck.cards.push(createResponse);
+                        if (tracker === 0) {
+                            modal.modal("hide");
+                            search();
+                        }
+                    });
+                });
+            });
+        } else {
+            var newDeck = {
+                name : newDeckName,
+                cards : newCards,
+                limit : 100
+            };
+            createDeck(newDeck, function(response) {
+                data.push(response);
+                _.each(newCards, function(singleCard) {
+                    var deck = _.find(data, {cards: [{_id:singleCard._id}]});
+                    deleteCard(deck._id, singleCard, function(deleteResponse) {
+                        tracker = tracker - 1;
+                        _.pull(deck.cards, singleCard);
+                        if (tracker === 0) {
+                            modal.modal("hide");
+                            search();
+                            refreshDeckList();
+                        }
+                    });
+                });
+            });
+        }
     });
 });

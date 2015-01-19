@@ -6,13 +6,25 @@
                 <h4 class="modal-title"><i class="fa fa-file-text-o"></i> Copy / Move card(s)</h4>
             </div>
             <div class="modal-body">
-                <div class="dropdown">
-                    <h4 class="modal-title">To deck</h4>
-                    <button id="dLabel" type="button" data-toggle="dropdown" role="button">
-                    <span class="currentDeck"></span>
-                    <span class="caret"></span>
-                    </button>
-                <ul class="dropdown-menu deckDropdown" role="menu"></ul>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <h4 class="modal-title">To existing deck</h4>
+                        <button id="deckDropdowBtn" type="button" data-toggle="dropdown" role="button">
+                            <span class="currentDeck"></span>
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu deckDropdown" role="menu"></ul>
+                    </div>
+
+                    <div class="col-xs-2">
+                        <h4 class="modal-title">or</h4>
+                    </div>
+
+                    <div class="form-group col-xs-6">
+                       <h4 class="modal-title">To new deck</h4>
+                       <input type="text" class="form-control" id="deck-name">
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Discard</button>
