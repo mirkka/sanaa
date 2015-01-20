@@ -153,6 +153,13 @@ $.get('./templates/create_card.handlebars', function(response) {
         $(".currentDeck").text(value);
     });
 
+    modal.find("#switch").on("click", function () {
+        var front = cfront.val();
+        var back = cback.val();
+        cback.val(front);
+        cfront.val(back);
+    });
+
     modal.find("#add-card").on("click", function () {
         var card = {};
         var deckId = latestDeck._id;

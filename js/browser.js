@@ -266,6 +266,13 @@ $.get('./templates/create_card.handlebars', function(response) {
         });
     });
 
+    modal.find("#switch").on("click", function () {
+        var front = cfront.val();
+        var back = cback.val();
+        cback.val(front);
+        cfront.val(back);
+    });
+
     modal.on('hidden.bs.modal', function () {
         search();
         refreshTaglist();
