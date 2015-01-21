@@ -23,7 +23,6 @@ function createCard(deckId, cardObject, successCallback) {
     });
 }
 
-
 function updateCard(deckID, cardObject, successCallback) {
     $.ajax({
         type: "PUT",
