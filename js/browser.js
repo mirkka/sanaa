@@ -258,7 +258,6 @@
             card.level = 0;
             cfront.focus();
             createCard(deckId, card, function(response) {
-                console.log(response);
                 var deck = _.find(data, {_id : deckId});
                 deck.cards.push(response);
                 cback.val("");

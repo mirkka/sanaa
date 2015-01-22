@@ -102,11 +102,23 @@
       // $(this); is the modal that triggered the event
       $(this).find('.deck-rename').val(deck.name);
       $(this).find(".limit").text(deck.limit);
+      $(this).find("#flip").removeClass("active");
     });
 
     $("#editDeckModal .dropdown-menu a").on("click", function() {
         var value = $(this).text();
         $(".limit").text(value);
+    });
+
+    $("#flip").on("click", function() {
+        var deck = _.find(data, {_id:id});
+        $(this).toggleClass("active").blur();
+        _.each(deck.cards, function(singleCard) {
+            var front = singleCard.front;
+            var back = singleCard.back;
+            singleCard.back = front;
+            singleCard.front = back;
+        });
     });
 
     $("#save").on("click", function() {
@@ -115,20 +127,9 @@
             deck.name = $(".deck-rename").val();
             deck.limit = $(".limit").text();
             delete deck._id;
-            $.ajax({
-                type: "PUT",
-                url: "//words-on-cards.herokuapp.com/decks/" + id,
-                dataType: "json",
-                data: JSON.stringify(deck),
-                contentType: "application/json; charset=utf-8",
-                success: function(response) {
-                    deck._id = id;
-                    createList();
-                },
-                error: function(response) {
-                    alert("unsaved");
-                    console.log(response);
-                }
+            updateDeck(id, deck, function(response) {
+                deck._id = id;
+                createList();
             });
         }
     });
@@ -144,14 +145,14 @@
         modal.on("shown.bs.modal", function(event) {
             cfront.focus();
             ul.html(dropdown(_.sortBy(data, "name")));
-            $(".currentDeck").text(latestDeck.name);
+            modal.find(".currentDeck").text(latestDeck.name);
         });
 
         $("body").on("click", "#createCardmodal .dropdown-menu a", function() {
             var value = $(this).text();
             var id = $(this).data("id");
             latestDeck = _.find(data, {_id:id});
-            $(".currentDeck").text(value);
+            modal.find(".currentDeck").text(value);
         });
 
         modal.find("#switch").on("click", function () {

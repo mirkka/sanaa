@@ -62,3 +62,17 @@ function createDeck(deck, successCallback) {
         }
     });
 }
+
+function updateDeck(deckID, deck, successCallback) {
+    $.ajax({
+        type: "PUT",
+        url: "//words-on-cards.herokuapp.com/decks/" + deckID,
+        dataType: "json",
+        data: JSON.stringify(deck),
+        contentType: "application/json; charset=utf-8",
+        success: successCallback,
+        error: function(response) {
+            console.log(response);
+        }
+    });
+}
