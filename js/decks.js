@@ -126,9 +126,7 @@
         if (deck) {
             deck.name = $(".deck-rename").val();
             deck.limit = $(".limit").text();
-            delete deck._id;
             updateDeck(id, deck, function(response) {
-                deck._id = id;
                 createList();
             });
         }
