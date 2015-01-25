@@ -152,6 +152,10 @@
             cfront.val(back);
         });
 
+        $("#browseDeck").on("click", function() {
+            window.localStorage.setItem("deckId", latestDeck._id);
+        });
+
         modal.find("#add-card").on("click", function () {
             var card = {};
             var deckId = latestDeck._id;

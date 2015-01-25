@@ -1,4 +1,5 @@
 (function() {
+    var id = window.localStorage.getItem("deckId");
     var data;
     var resultsTemplate;
     var selectedFilter;
@@ -12,23 +13,32 @@
 
     sanaa.getAlldecks(function(allDecks) {
         data = allDecks;
-        selectedFilter = function() {
-            return _.flatten(_.pluck(data, "cards"));
-        };
         $.get('./templates/deck_list_options.handlebars', function(response) {
             listTemplate = Handlebars.compile(response);
+            if (id) {
+                latestDeck = _.find(data, {_id:id});
+                selectedFilter = function() {
+                    return _.sortBy(latestDeck.cards, "front");
+                };
+                printResults(selectedFilter());
+                refreshDeckList(latestDeck.name);
+                window.localStorage.removeItem("deckId");
+            } else {
+                selectedFilter = function() {
+                    return _.flatten(_.pluck(data, "cards"));
+                };
+                latestDeck = _.sortBy(data, "creationTime")[data.length - 1];
+                refreshDeckList();
+            }
             refreshTaglist();
-            refreshDeckList();
         });
-
-        latestDeck = _.sortBy(data, "creationTime")[data.length - 1];
     });
 
-    function refreshDeckList() {
-        var previouslyActive = deckList.find(".active").text();
+    function refreshDeckList(activeDeck) {
+        var previouslyActive = activeDeck || deckList.find(".active").text();
         deckList.html(listTemplate(_.sortBy(data, "name")));
         if (previouslyActive !== "") {
-            deckList.find(":contains('"+ previouslyActive + "')").addClass("active");
+            deckList.find("li:contains('"+ previouslyActive + "')").addClass("active");
         }
     }
 
