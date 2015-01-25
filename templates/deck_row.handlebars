@@ -1,6 +1,6 @@
 <div class="row margin deck">
 	<div class="col-xs-2">
-		<a href="./study.html?id={{_id}}" class="btn btn-primary btn-xs" role="button" {{#unless due}}disabled="disabled"{{/unless}}>Study</a>
+		<a href="./study.html" class="btn btn-primary btn-xs study" role="button" {{#unless due}}disabled="disabled"{{/unless}} data-id="{{_id}}">Study</a>
 	</div>
 	<div class="col-xs-5">{{name}}</div>
 	<div class="col-xs-1 text-danger"><strong>{{due}}</strong></div>

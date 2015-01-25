@@ -1,6 +1,5 @@
 (function() {
-    var params = window.location.search.substr(1).split("&");
-    var id;
+    var id = window.localStorage.getItem("studyDeckId");
     var template;
     var deck;
     var cardContainer = $(".card");
@@ -49,11 +48,18 @@
         return Math.round(Math.random() * (end - start)) + start + 1;
     }
 
-    for (var i = 0; i < params.length; i++) {
-        if (params[i].indexOf("id=") > -1) {
-            id = params[i].substr(3);
-        }
-    }
+    $.get('./templates/study.handlebars', function(response) {
+        template = Handlebars.compile(response);
+        sanaa.getDeck(id, function(response) {
+            deck = response;
+            deck.cards = _.filter(deck.cards, function (card) {
+                return card.weight < dueDate;
+            });
+            deck.cards = _.sortBy(deck.cards, 'weight');
+            createCard(cur());
+            $("#deckName").text(deck.name);
+        });
+    });
 
     $.get('./templates/navigation.handlebars', function(response) {
         var nav = Handlebars.compile(response);
@@ -95,19 +101,6 @@
         });
     });
 
-    $.get('./templates/study.handlebars', function(response) {
-        template = Handlebars.compile(response);
-        sanaa.getDeck(id, function(response) {
-            deck = response;
-            deck.cards = _.filter(deck.cards, function (card) {
-                return card.weight < dueDate;
-            });
-            deck.cards = _.sortBy(deck.cards, 'weight');
-            createCard(cur());
-            $("#deckName").text(deck.name);
-        });
-    });
-
     $("#goodButton").on("click", function () {
         // picks up correct weight from levelWeights array acc to index = level
         cur().weight = Date.now() + levelWeights[cur().level];
@@ -131,6 +124,7 @@
     });
 
     $("#finishedStudy").on('hide.bs.modal', function() {
+        window.localStorage.removeItem("studyDeckId");
         window.location.href = "./decks.html";
     });
 

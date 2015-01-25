@@ -69,6 +69,10 @@
         });
     }
 
+    $("body").on("click", ".study", function() {
+        window.localStorage.setItem("studyDeckId", $(this).data('id'));
+    });
+
     $('#deleteDeckModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget);// Button that triggered the modal
       id = button.data('id');
