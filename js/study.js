@@ -80,7 +80,7 @@
             cur().front = cfront.val();
             cur().back = cback.val();
             cur().tags = modal.find("#tag").val().split(",");
-            updateCard(deck._id, cur(), function() {
+            sanaa.updateCard(deck._id, cur(), function() {
                 createCard(cur());
                 $("#frontArea").removeClass("hidden");
                 $("#backArea").addClass("hidden");
@@ -97,22 +97,14 @@
 
     $.get('./templates/study.handlebars', function(response) {
         template = Handlebars.compile(response);
-        $.ajax({
-            type: "GET",
-            url: "//words-on-cards.herokuapp.com/decks/" + id,
-            success: function(response) {
-                deck = response;
-                deck.cards = _.filter(deck.cards, function (card) {
-                    return card.weight < dueDate;
-                });
-                deck.cards = _.sortBy(deck.cards, 'weight');
-                console.log(response);
-                createCard(cur());
-                $("#deckName").text(deck.name);
-            },
-            error: function(response) {
-                console.log(response);
-            }
+        sanaa.getDeck(id, function(response) {
+            deck = response;
+            deck.cards = _.filter(deck.cards, function (card) {
+                return card.weight < dueDate;
+            });
+            deck.cards = _.sortBy(deck.cards, 'weight');
+            createCard(cur());
+            $("#deckName").text(deck.name);
         });
     });
 
@@ -125,8 +117,7 @@
         if (cur().level < 5) {
             cur().level = cur().level + 1;
         }
-        updateCard(deck._id, cur(), function() {
-            console.log(cur());
+        sanaa.updateCard(deck._id, cur(), function() {
             deck.cards = _.filter(deck.cards, function (card) {
                 return card.weight < dueDate;
             });
@@ -155,8 +146,7 @@
         } else {
             cur().level = 0;
         }
-        updateCard(deck._id, cur(), function() {
-            console.log(cur());
+        sanaa.updateCard(deck._id, cur(), function() {
             deck.cards = _.sortBy(deck.cards, 'weight');
             createCard(cur());
         });

@@ -20,7 +20,7 @@
     });
 
     // calls function from common, passes success callback
-    getAlldecks(function(allDecks) {
+    sanaa.getAlldecks(function(allDecks) {
         data = allDecks;
         $.get('./templates/deck_row.handlebars', function(rowTemplate) {
             template = Handlebars.compile(rowTemplate);
@@ -61,7 +61,7 @@
             cards : [],
             limit : 100
         };
-        createDeck(deck, function(response) {
+        sanaa.createDeck(deck, function(response) {
             data.push(response);
             createList();
             deckName.val("");
@@ -78,20 +78,12 @@
 
     $("#delete").on("click", function() {
         var deck = _.find(data, {_id:id});
-        $.ajax({
-            type: "DELETE",
-            url: "//words-on-cards.herokuapp.com/decks/" + id,
-            success: function(response) {
-                _.pull(data, deck);
-                if (deck._id === latestDeck._id){
-                    latestDeck = _.sortBy(data, "creationTime")[data.length - 1];
-                }
-                createList();
-            },
-            error: function(response) {
-                alert("unsaved");
-                console.log(response);
+        sanaa.deleteDeck(deck._id, function() {
+            _.pull(data, deck);
+            if (deck._id === latestDeck._id){
+                latestDeck = _.sortBy(data, "creationTime")[data.length - 1];
             }
+            createList();
         });
     });
 
@@ -126,7 +118,7 @@
         if (deck) {
             deck.name = $(".deck-rename").val();
             deck.limit = $(".limit").text();
-            updateDeck(id, deck, function(response) {
+            sanaa.updateDeck(id, deck, function(response) {
                 createList();
             });
         }
@@ -169,7 +161,7 @@
             card.tags = modal.find("#tag").val().split(",");
             card.level = 0;
             cfront.focus();
-            createCard(deckId, card, function(response) {
+            sanaa.createCard(deckId, card, function(response) {
                 console.log(response);
                 var deck = _.find(data, {_id : deckId});
                 deck.cards.push(response);

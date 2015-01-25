@@ -10,7 +10,7 @@
     var latestDeck;
     var listTemplate;
 
-    getAlldecks(function(allDecks) {
+    sanaa.getAlldecks(function(allDecks) {
         data = allDecks;
         selectedFilter = function() {
             return _.flatten(_.pluck(data, "cards"));
@@ -190,7 +190,7 @@
             card.front = cfront.val();
             card.back = cback.val();
             card.tags = modal.find("#tag").val().split(",");
-            updateCard(deck._id, card, function() {
+            sanaa.updateCard(deck._id, card, function() {
                 refreshTaglist();
                 search();
             });
@@ -211,7 +211,7 @@
             var id = $(elem).data("id");
             var deck = _.find(data, {cards: [{_id:id}]});
             var card = _.find(deck.cards, {_id:id});
-            deleteCard(deck._id, card, function(argument) {
+            sanaa.deleteCard(deck._id, card, function(argument) {
                 _.pull(deck.cards, card);
                 tracker = tracker - 1;
                 if (tracker === 0) {
@@ -257,7 +257,7 @@
             card.tags = modal.find("#tag").val().split(",");
             card.level = 0;
             cfront.focus();
-            createCard(deckId, card, function(response) {
+            sanaa.createCard(deckId, card, function(response) {
                 var deck = _.find(data, {_id : deckId});
                 deck.cards.push(response);
                 cback.val("");
@@ -314,7 +314,7 @@
             });
             if (newDeckName === "") {
                 _.each(newCards, function(singleClonedCard) {
-                    createCard(latestDeck._id, singleClonedCard, function(response) {
+                    sanaa.createCard(latestDeck._id, singleClonedCard, function(response) {
                         tracker = tracker - 1;
                         latestDeck.cards.push(response);
                         if (tracker === 0) {
@@ -360,8 +360,8 @@
             if (newDeckName === "") {
                 _.each(newCards, function(singleCard) {
                     var deck = _.find(data, {cards: [{_id:singleCard._id}]});
-                    createCard(latestDeck._id, singleCard, function(createResponse) {
-                        deleteCard(deck._id, singleCard, function(deleteResponse) {
+                    sanaa.createCard(latestDeck._id, singleCard, function(createResponse) {
+                        sanaa.deleteCard(deck._id, singleCard, function(deleteResponse) {
                             tracker = tracker - 1;
                             _.pull(deck.cards, singleCard);
                             latestDeck.cards.push(createResponse);
@@ -378,11 +378,11 @@
                     cards : newCards,
                     limit : 100
                 };
-                createDeck(newDeck, function(response) {
+                sanaa.createDeck(newDeck, function(response) {
                     data.push(response);
                     _.each(newCards, function(singleCard) {
                         var deck = _.find(data, {cards: [{_id:singleCard._id}]});
-                        deleteCard(deck._id, singleCard, function(deleteResponse) {
+                        sanaa.deleteCard(deck._id, singleCard, function(deleteResponse) {
                             tracker = tracker - 1;
                             _.pull(deck.cards, singleCard);
                             if (tracker === 0) {
