@@ -79,6 +79,10 @@ a:hover {
 	opacity: 0.5;
 }
 
+.padding-reset {
+	padding: 0;
+}
+
 .padding-top {
 	padding-top: 10px;
 }

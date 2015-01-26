@@ -143,10 +143,9 @@
         });
 
         $("body").on("click", "#createCardmodal .dropdown-menu a", function() {
-            var value = $(this).text();
             var id = $(this).data("id");
             latestDeck = _.find(data, {_id:id});
-            modal.find(".currentDeck").text(value);
+            modal.find(".currentDeck").text(latestDeck.name);
         });
 
         modal.find("#switch").on("click", function () {
@@ -170,7 +169,6 @@
             card.level = 0;
             cfront.focus();
             sanaa.createCard(deckId, card, function(response) {
-                console.log(response);
                 var deck = _.find(data, {_id : deckId});
                 deck.cards.push(response);
                 cback.val("");
@@ -180,11 +178,34 @@
         });
     });
 
+    $.get('./templates/export_deck.handlebars', function(response){
+        var exportDeck = Handlebars.compile(response);
+        var modal = $(exportDeck());
+        var ul = modal.find(".deckDropdown");
+
+        function updateExportUrl() {
+            var downloadUrl = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(latestDeck));
+            modal.find("#export").prop("href", downloadUrl).prop("download", latestDeck.name + ".json");
+            modal.find(".activeDeck").text(latestDeck.name);
+        }
+
+        $(".container").append(modal);
+
+        $("body").on("click", "#exportDeckmodal .dropdown-menu a", function() {
+            var id = $(this).data("id");
+            latestDeck = _.find(data, {_id:id});
+            updateExportUrl();
+        });
+
+        modal.on("shown.bs.modal", function(event) {
+            ul.html(dropdown(_.sortBy(data, "name")));
+            updateExportUrl();
+        });
+    });
+
     $(function () {
       $('[data-toggle="tooltip"]').tooltip();
     });
 
-    $("#createCard").on('hide.bs.modal', function() {
-        createList();
-    });
+    $("#createCard").on('hide.bs.modal', createList);
 })();
