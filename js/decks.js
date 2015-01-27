@@ -9,6 +9,19 @@
     var dueDate = Date.now() + hour;
     var latestDeck;
 
+    function createList() {
+        list.empty();
+        _.each(data, function(singleDeck) {
+            singleDeck.due = _.filter(singleDeck.cards, function (card) {
+                return card.weight < dueDate;
+            }).length;
+        });
+        _.sortBy(data, 'name').forEach(function(object) {
+            var html = template(object);
+            list.append(html);
+        });
+     }
+
     $.get('./templates/deck_list_options.handlebars', function(response) {
         dropdown = Handlebars.compile(response);
      });
@@ -28,19 +41,6 @@
             createList();
          });
     });
-
-    function createList() {
-        list.empty();
-        _.each(data, function(singleDeck) {
-            singleDeck.due = _.filter(singleDeck.cards, function (card) {
-                return card.weight < dueDate;
-            }).length;
-        });
-        _.sortBy(data, 'name').forEach(function(object) {
-            var html = template(object);
-            list.append(html);
-        });
-     }
 
     $('#createDeckModal').on('shown.bs.modal', function () {
         $('#deck-name').focus();
@@ -176,12 +176,15 @@
                 modal.find("#tag").val("");
             });
         });
+
+        modal.on('hide.bs.modal', createList);
     });
 
     $.get('./templates/export_deck.handlebars', function(response){
         var exportDeck = Handlebars.compile(response);
         var modal = $(exportDeck());
         var ul = modal.find(".deckDropdown");
+        var importedDeck;
 
         function updateExportUrl() {
             var downloadUrl = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(latestDeck));
@@ -201,11 +204,32 @@
             ul.html(dropdown(_.sortBy(data, "name")));
             updateExportUrl();
         });
+
+        modal.find(".importInput").on('change', function() {
+            var file = this.files[0];
+            if (!file) {
+                return;
+            }
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                importedDeck = JSON.parse(e.target.result);
+                modal.find("#import").prop("disabled", false);
+            };
+            reader.readAsText(file);
+        });
+
+        modal.find("#import").on("click", function() {
+            sanaa.createDeck(importedDeck, function(response) {
+                modal.find(".importInput").val("");
+                data.push(response);
+                modal.find("#import").prop("disabled", true);
+            });
+        });
+
+        modal.on('hide.bs.modal', createList);
     });
 
     $(function () {
-      $('[data-toggle="tooltip"]').tooltip();
+        $('[data-toggle="tooltip"]').tooltip();
     });
-
-    $("#createCard").on('hide.bs.modal', createList);
 })();
