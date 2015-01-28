@@ -192,6 +192,13 @@
             modal.find(".activeDeck").text(latestDeck.name);
         }
 
+        function resetImportForm() {
+            importedDeck = null;
+            modal.find(".importInput").val("");
+            modal.find("#import").prop("disabled", true);
+            modal.find(".warningMessage").addClass("hidden");
+        }
+
         $(".container").append(modal);
 
         $("body").on("click", "#exportDeckmodal .dropdown-menu a", function() {
@@ -200,33 +207,46 @@
             updateExportUrl();
         });
 
-        modal.on("shown.bs.modal", function(event) {
+        modal.on("show.bs.modal", function(event) {
             ul.html(dropdown(_.sortBy(data, "name")));
             updateExportUrl();
         });
 
         modal.find(".importInput").on('change', function() {
             var file = this.files[0];
+            modal.find(".warningMessage").addClass("hidden");
             if (!file) {
                 return;
             }
             var reader = new FileReader();
             reader.onload = function(e) {
-                importedDeck = JSON.parse(e.target.result);
-                modal.find("#import").prop("disabled", false);
+                try {
+                    importedDeck = JSON.parse(e.target.result);
+                } catch (exception) {
+                    modal.find(".warningMessage").removeClass("hidden");
+                }
+
+                if (importedDeck.hasOwnProperty("name") && importedDeck.hasOwnProperty("limit"))  {
+                    modal.find("#import").prop("disabled", false);
+                } else {
+                    modal.find(".warningMessage").removeClass("hidden");
+                    modal.find("#import").prop("disabled", true);
+                }
             };
             reader.readAsText(file);
         });
 
         modal.find("#import").on("click", function() {
             sanaa.createDeck(importedDeck, function(response) {
-                modal.find(".importInput").val("");
                 data.push(response);
-                modal.find("#import").prop("disabled", true);
+                resetImportForm();
             });
         });
 
-        modal.on('hide.bs.modal', createList);
+        modal.on('hide.bs.modal', function() {
+            resetImportForm();
+            createList();
+        });
     });
 
     $(function () {
