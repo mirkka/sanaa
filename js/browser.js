@@ -339,7 +339,7 @@
                     cards : newCards,
                     limit : 100
                 };
-                createDeck(newDeck, function(response) {
+                sanaa.createDeck(newDeck, function(response) {
                     data.push(response);
                     modal.modal("hide");
                     refreshDeckList();
