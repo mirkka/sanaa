@@ -102,4 +102,57 @@
             }
         });
     };
+
+    sanaa.duplicityCheck = function (data, modal, ignoredCard) {
+        var allCards = _(data)
+            .pluck("cards")
+            .flatten()
+            .value();
+        var frontNeedle = modal.find("#front").val();
+        var backNeedle = modal.find("#back").val();
+        var firstMatch;
+        var matches = _.filter(allCards, function(singleCard) {
+            return (singleCard.front === frontNeedle || singleCard.back === backNeedle) && singleCard !== ignoredCard;
+        });
+
+        if (matches.length >  0) {
+            firstMatch = matches[0];
+            modal.find(".deckInfo").text(_.find(data, {cards: [firstMatch]}).name);
+            modal.find(".frontInfo").text(firstMatch.front);
+            modal.find(".backInfo").text(firstMatch.back);
+        }
+
+        modal.find(".disclaimer").toggleClass("hidden", matches.length === 0);
+
+        return firstMatch;
+    }
+
+    sanaa.moveDuplicity = function (data, modal, latestDeck) {
+        var firstMatch = sanaa.duplicityCheck(data, modal);
+        var matchDeck = _.find(data, {cards: [firstMatch]});
+        var cfront = modal.find("#front");
+        var cback = modal.find("#back");
+        sanaa.createCard(latestDeck._id, firstMatch, function(createResponse) {
+            sanaa.deleteCard(matchDeck._id, firstMatch, function(deleteResponse) {
+                _.pull(matchDeck.cards, firstMatch);
+                if (!sanaa.duplicityCheck(data, modal)) {
+                    cback.val("");
+                    cfront.val("").focus();
+                    modal.find("#tag").val("");
+                }
+                latestDeck.cards.push(createResponse);
+            });
+        });
+    }
+
+    sanaa.deleteDuplicity = function (data, modal, latestDeck) {
+        var cfront = modal.find("#front");
+        var cback = modal.find("#back");
+        var firstMatch = sanaa.duplicityCheck(data, modal);
+        var matchDeck = _.find(data, {cards: [firstMatch]});
+        sanaa.deleteCard(matchDeck._id, firstMatch, function(deleteResponse) {
+            _.pull(matchDeck.cards, firstMatch);
+            sanaa.duplicityCheck(data, modal);
+        });
+    }
 })();

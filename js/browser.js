@@ -194,6 +194,7 @@
             cback.val(card.back);
             modal.find("#tag").val(card.tags.join(","));
             modal.find(".deckName").text(deck.name);
+            sanaa.duplicityCheck(data, modal, card);
         });
 
         modal.find("#edit-card").on("click", function() {
@@ -211,6 +212,22 @@
             var back = cback.val();
             cback.val(front);
             cfront.val(back);
+        });
+
+        cfront.on("keyup", function() {
+            sanaa.duplicityCheck(data, modal, card);
+        });
+
+        cback.on("keyup", function() {
+            sanaa.duplicityCheck(data, modal, card);
+        });
+
+        modal.find(".moveDuplicity").on("click", function() {
+            sanaa.moveDuplicity(data, modal, latestDeck);
+        });
+
+        modal.find(".deleteDuplicity").on("click", function() {
+            sanaa.deleteDuplicity(data, modal, latestDeck);
         });
     });
 
@@ -281,6 +298,21 @@
             var back = cback.val();
             cback.val(front);
             cfront.val(back);
+        });
+
+        cfront.on("keyup", function() {
+            sanaa.duplicityCheck(data, modal);
+        });
+        cback.on("keyup", function() {
+            sanaa.duplicityCheck(data, modal);
+        });
+
+        modal.find(".moveDuplicity").on("click", function() {
+            sanaa.moveDuplicity(data, modal, latestDeck);
+        });
+
+        modal.find(".deleteDuplicity").on("click", function() {
+            sanaa.deleteDuplicity(data, modal, latestDeck);
         });
 
         modal.on('hidden.bs.modal', function () {

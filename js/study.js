@@ -14,6 +14,11 @@
         day * 4,
         day * 7
     ];
+    var data;
+
+    sanaa.getAlldecks(function(allDecks) {
+        data = allDecks;
+    });
 
     function cur() {
         return deck.cards[0];
@@ -80,6 +85,7 @@
             cfront.val(cur().front);
             cback.val(cur().back);
             modal.find("#tag").val(cur().tags.join(","));
+            sanaa.duplicityCheck(data, modal, cur());
         });
 
         modal.find("#edit-card").on("click", function() {
@@ -99,6 +105,22 @@
             cback.val(front);
             cfront.val(back);
         });
+
+        cfront.on("keyup", function() {
+            sanaa.duplicityCheck(data, modal, cur());
+        });
+        cback.on("keyup", function() {
+            sanaa.duplicityCheck(data, modal, cur());
+        });
+
+        modal.find(".moveDuplicity").on("click", function() {
+            sanaa.moveDuplicity(data, modal, deck);
+        });
+
+        modal.find(".deleteDuplicity").on("click", function() {
+            sanaa.deleteDuplicity(data, modal, deck);
+        });
+
     });
 
     $("#goodButton").on("click", function () {
