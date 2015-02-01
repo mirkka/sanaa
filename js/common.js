@@ -1,10 +1,20 @@
 (function() {
     window.sanaa = window.sanaa || {};
 
+    function getToken() {
+        return "?token=" + $.cookie('token');
+    }
+
+    sanaa.checkCookie = function () {
+        if (!$.cookie('token')) {
+            window.location.href = "./login.html";
+        }
+    }
+
     sanaa.getAlldecks = function(successCallback) {
         $.ajax({
             type: "GET",
-            url: "//words-on-cards.herokuapp.com/decks",
+            url: "//words-on-cards.herokuapp.com/decks" + getToken(),
             success: successCallback,
             error: function(response) {
                 console.log(response);
@@ -15,7 +25,7 @@
     sanaa.getDeck = function(deckId, successCallback) {
         $.ajax({
             type: "GET",
-            url: "//words-on-cards.herokuapp.com/decks/" + deckId,
+            url: "//words-on-cards.herokuapp.com/decks/" + deckId + getToken(),
             success: successCallback,
             error: function(response) {
                 console.log(response);
@@ -26,7 +36,7 @@
     sanaa.deleteDeck = function(deckId, successCallback) {
         $.ajax({
             type: "DELETE",
-            url: "//words-on-cards.herokuapp.com/decks/" + deckId,
+            url: "//words-on-cards.herokuapp.com/decks/" + deckId + getToken(),
             success: successCallback,
             error: function(response) {
                 alert("unsaved");
@@ -38,7 +48,7 @@
     sanaa.createCard = function(deckId, cardObject, successCallback) {
         $.ajax({
             type: "POST",
-            url: "//words-on-cards.herokuapp.com/decks/" + deckId + "/cards",
+            url: "//words-on-cards.herokuapp.com/decks/" + deckId + "/cards" + getToken(),
             dataType: "json",
             data: JSON.stringify(cardObject),
             contentType: "application/json; charset=utf-8",
@@ -52,7 +62,7 @@
     sanaa.updateCard = function(deckId, cardObject, successCallback) {
         $.ajax({
             type: "PUT",
-            url: "//words-on-cards.herokuapp.com/decks/" + deckId + "/cards/" + cardObject._id,
+            url: "//words-on-cards.herokuapp.com/decks/" + deckId + "/cards/" + cardObject._id + getToken(),
             dataType: "json",
             data: JSON.stringify(cardObject),
             contentType: "application/json; charset=utf-8",
@@ -66,7 +76,7 @@
     sanaa.deleteCard = function(deckId, cardObject, successCallback) {
         $.ajax({
             type: "DELETE",
-            url: "//words-on-cards.herokuapp.com/decks/" + deckId + "/cards/" + cardObject._id,
+            url: "//words-on-cards.herokuapp.com/decks/" + deckId + "/cards/" + cardObject._id + getToken(),
             crossDomain: true,
             success: successCallback,
             error: function(response) {
@@ -78,7 +88,7 @@
     sanaa.createDeck = function(deck, successCallback) {
         $.ajax({
             type: "POST",
-            url: "//words-on-cards.herokuapp.com/decks",
+            url: "//words-on-cards.herokuapp.com/decks" + getToken(),
             dataType: "json",
             data: JSON.stringify(deck),
             contentType: "application/json; charset=utf-8",
@@ -92,7 +102,7 @@
     sanaa.updateDeck = function(deckId, deck, successCallback) {
         $.ajax({
             type: "PUT",
-            url: "//words-on-cards.herokuapp.com/decks/" + deckId,
+            url: "//words-on-cards.herokuapp.com/decks/" + deckId + getToken(),
             dataType: "json",
             data: JSON.stringify(deck),
             contentType: "application/json; charset=utf-8",

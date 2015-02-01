@@ -142,3 +142,15 @@ a:hover {
 .info {
 	border-bottom: 1px solid lightgrey;
 }
+
+.newAccountLink,.loginLink {
+	margin-top: 26px;
+}
+
+.glyphicon {
+	display: none;
+}
+
+.has-error .glyphicon {
+	display: block;
+}

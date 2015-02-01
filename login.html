@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="./css/common.css" rel="stylesheet" type="text/css">
+        <title>Login</title>
+    </head>
+
+    <body>
+        <div class="container margin">
+            <div class="row header bg-info">
+                <div class="padding-bottom padding-top logo col-xs-3 text-uppercase"><strong>Sanaa</strong></div>
+            </div>
+            <h4 class="loginTitle"><strong>Login</strong></h4>
+            <h4 class="createAccountTitle hidden"><strong>Create account</strong></h4>
+            <div class="margin border-top padding-top">
+                <div class="form-group username">
+                    <label>Username</label>
+                    <input class="form-control" placeholder="Username">
+                </div>
+                <div class="form-group password">
+                    <label>Password</label>
+                    <input type="password" class="form-control" placeholder="Password">
+                    <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                </div>
+                <div class="form-group confirmPassword hidden">
+                    <label>Confirm password</label>
+                    <input type="password" class="form-control" placeholder="Password">
+                    <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                </div>
+                <div>
+                    <button class="btn btn-primary createAccountButton margin hidden">Create account</button>
+                    <button class="btn btn-primary loginButton margin">Submit</button>
+                    <a href="#" class="pull-right newAccountLink">Create new account</a>
+                    <a href="#"class="pull-right loginLink hidden">Login</a>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.min.js"></script>
+        <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="./js/jquery.cookie.js"></script>
+        <script type="text/javascript" src="./js/common.js"></script>
+        <script type="text/javascript" src="./js/login.js"></script>
+    </body>
+
+</html>

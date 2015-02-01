@@ -9,6 +9,8 @@
     var dueDate = Date.now() + hour;
     var latestDeck;
 
+    sanaa.checkCookie();
+
     function createList() {
         list.empty();
         _.each(data, function(singleDeck) {
