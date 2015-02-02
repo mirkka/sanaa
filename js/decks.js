@@ -60,8 +60,7 @@
     function addDeck(argument) {
         var deck = {
             name : deckName.val(),
-            cards : [],
-            limit : 100
+            cards : []
         };
         sanaa.createDeck(deck, function(response) {
             data.push(response);
@@ -99,13 +98,7 @@
       var deck = _.find(data, {_id:id});
       // $(this); is the modal that triggered the event
       $(this).find('.deck-rename').val(deck.name);
-      $(this).find(".limit").text(deck.limit);
       $(this).find("#flip").removeClass("active");
-    });
-
-    $("#editDeckModal .dropdown-menu a").on("click", function() {
-        var value = $(this).text();
-        $(".limit").text(value);
     });
 
     $("#flip").on("click", function() {
@@ -123,10 +116,7 @@
         var deck = _.find(data, {_id:id});
         if (deck) {
             deck.name = $(".deck-rename").val();
-            deck.limit = $(".limit").text();
-            sanaa.updateDeck(id, deck, function(response) {
-                createList();
-            });
+            sanaa.updateDeck(id, deck, createList);
         }
     });
 
@@ -243,7 +233,7 @@
                     modal.find(".warningMessage").removeClass("hidden");
                 }
 
-                if (importedDeck.hasOwnProperty("name") && importedDeck.hasOwnProperty("limit"))  {
+                if (importedDeck.hasOwnProperty("name"))  {
                     modal.find("#import").prop("disabled", false);
                 } else {
                     modal.find(".warningMessage").removeClass("hidden");

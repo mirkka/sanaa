@@ -368,8 +368,7 @@
             } else {
                 var newDeck = {
                     name : newDeckName,
-                    cards : newCards,
-                    limit : 100
+                    cards : newCards
                 };
                 sanaa.createDeck(newDeck, function(response) {
                     data.push(response);
@@ -417,8 +416,7 @@
             } else {
                 var newDeck = {
                     name : newDeckName,
-                    cards : newCards,
-                    limit : 100
+                    cards : newCards
                 };
                 sanaa.createDeck(newDeck, function(response) {
                     data.push(response);
