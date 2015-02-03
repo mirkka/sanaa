@@ -73,6 +73,8 @@
     });
 
     $.get('./templates/edit_card.handlebars', function(response) {
+        var ignoredDeck;
+        var ignoredCard;
         var edit = Handlebars.compile(response);
         var modal = $(edit());
         var cfront = modal.find("#front");
@@ -80,12 +82,13 @@
         $(".container").append(modal);
 
         modal.on("shown.bs.modal", function() {
+            ignoredDeck = _.find(data, {cards: [cur()]});
+            ignoredCard = _.find(ignoredDeck.cards, cur());
             cfront.focus();
             modal.find(".deckName").text(deck.name);
             cfront.val(cur().front);
             cback.val(cur().back);
             modal.find("#tag").val(cur().tags.join(","));
-            sanaa.duplicityCheck(data, modal, cur());
         });
 
         modal.find("#edit-card").on("click", function() {
@@ -107,10 +110,10 @@
         });
 
         cfront.on("keyup", function() {
-            sanaa.duplicityCheck(data, modal, cur());
+            sanaa.duplicityCheck(data, modal, ignoredCard);
         });
         cback.on("keyup", function() {
-            sanaa.duplicityCheck(data, modal, cur());
+            sanaa.duplicityCheck(data, modal, ignoredCard);
         });
 
         modal.find(".moveDuplicity").on("click", function() {
