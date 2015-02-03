@@ -1,7 +1,7 @@
 (function() {
 
 	if ($.cookie('token')) {
-		window.location.href = "./decks.html";
+		window.location.href = "./index.html";
 	}
 
 	function createUser() {
@@ -66,7 +66,7 @@
 		    success: function(response) {
 		    	if (response.token) {
 		    		$.cookie('token', response.token, { expires: 7, path: '/' });
-		    		window.location.href = "./decks.html";
+		    		window.location.href = "./index.html";
 		    	} else {
 		    		$(".username, password, .confirmPassword").addClass("has-error has-feedback");
 		    		$(".disclaimer").removeClass("hidden");

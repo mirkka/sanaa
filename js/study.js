@@ -150,7 +150,7 @@
 
     $("#finishedStudy").on('hide.bs.modal', function() {
         window.localStorage.removeItem("studyDeckId");
-        window.location.href = "./decks.html";
+        window.location.href = "./index.html";
     });
 
     $("#answer").on("click", function () {
