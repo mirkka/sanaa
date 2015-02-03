@@ -9,7 +9,7 @@
         if (!$.cookie('token')) {
             window.location.href = "./login.html";
         }
-    }
+    };
 
     sanaa.getAlldecks = function(successCallback) {
         $.ajax({
@@ -135,7 +135,7 @@
         modal.find(".disclaimer").toggleClass("hidden", matches.length === 0);
 
         return firstMatch;
-    }
+    };
 
     sanaa.moveDuplicity = function (data, modal, latestDeck) {
         var firstMatch = sanaa.duplicityCheck(data, modal);
@@ -153,7 +153,7 @@
                 latestDeck.cards.push(createResponse);
             });
         });
-    }
+    };
 
     sanaa.deleteDuplicity = function (data, modal, latestDeck) {
         var cfront = modal.find("#front");
@@ -164,5 +164,5 @@
             _.pull(matchDeck.cards, firstMatch);
             sanaa.duplicityCheck(data, modal);
         });
-    }
+    };
 })();
