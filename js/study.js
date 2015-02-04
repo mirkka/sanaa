@@ -124,6 +124,9 @@
             sanaa.deleteDuplicity(data, modal, deck);
         });
 
+        $("#browseDeck").on("click", function() {
+            window.localStorage.setItem("deckId", ignoredDeck._id);
+        });
     });
 
     $("#goodButton").on("click", function () {
