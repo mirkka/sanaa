@@ -22,6 +22,7 @@
             var html = template(object);
             list.append(html);
         });
+        $(".addCard, .exportBtn").prop("disabled", data.length === 0);
      }
 
     $.get('./templates/deck_list_options.handlebars', function(response) {
