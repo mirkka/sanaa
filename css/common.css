@@ -96,7 +96,7 @@ a:hover {
 }
 
 .padding-left {
-	padding-left: 15px;
+	padding-left: 10px;
 }
 
 .padding-right {
@@ -153,4 +153,8 @@ a:hover {
 
 .has-error .glyphicon {
 	display: block;
+}
+
+.card {
+	word-wrap: break-word;
 }
