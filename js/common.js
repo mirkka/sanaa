@@ -165,4 +165,9 @@
             sanaa.duplicityCheck(data, modal);
         });
     };
+
+    $("body").on("click", ".logout", function() {
+        $.removeCookie('token');
+        sanaa.checkCookie();
+    });
 })();
