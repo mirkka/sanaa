@@ -12,12 +12,22 @@ body {
   		width: 480px;
   		margin: 0;
 	}
+	.button-container button {
+		padding: 5px 10px;
+		font-size: 12px;
+		line-height: 1.5;
+		border-radius: 3px;
+	}
 }
 
 @media (max-width: 480px) {
 	.container.margin {
   		margin: 0;
 	}
+}
+
+.button-container button {
+	float: none;
 }
 
 .margin {
@@ -40,6 +50,10 @@ body {
 
 .margin-top {
 	margin-top: 10px;
+}
+
+.margin-bottom-small {
+	margin-bottom: 5px;
 }
 
 .header {
