@@ -75,6 +75,11 @@
         window.localStorage.setItem("studyDeckId", $(this).data('id'));
     });
 
+    $("body").on("click", ".deck", function() {
+        $(this).find(".deck-buttons").toggleClass("expand");
+    });
+
+
     $('#deleteDeckModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget);// Button that triggered the modal
       id = button.data('id');
