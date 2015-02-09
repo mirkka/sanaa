@@ -167,7 +167,7 @@
     };
 
     $("body").on("click", ".logout", function() {
-        $.removeCookie('token');
+        $.removeCookie('token', {path: '/' });
         sanaa.checkCookie();
     });
 })();
