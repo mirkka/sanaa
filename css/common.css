@@ -20,9 +20,15 @@ body {
 	.deck-buttons {
 		text-align: right;
 	}
+	.header {
+		font-size: 18px;
+	}
 }
 
 @media (max-width: 750px) {
+	body {
+		font-size: 1.8em;
+	}
 	.container.margin {
   		margin: 0;
 	}
@@ -30,8 +36,24 @@ body {
 		text-align: left;
 		padding-top: 5px;
 	}
-	.deck-buttons.expand {
+	.deck-buttons.expand,
+	.exportBtn {
 		display: none;
+	}
+	.button-container button {
+		font-size: 0.9em;
+		padding-bottom: 10px;
+		padding-top: 10px;
+	}
+	.deck-buttons .btn {
+		font-size: 0.9em;
+		padding: 5px 15px;
+	}
+	.header {
+		font-size: 1.3em;
+	}
+	.deck:nth-child(2n-1) {
+		background-color: rgb(240, 240, 240);
 	}
 }
 
@@ -68,7 +90,6 @@ body {
 .header {
 	font-weight: 500;
 	line-height: 1.1;
-	font-size: 18px;
 }
 
 .header a {
