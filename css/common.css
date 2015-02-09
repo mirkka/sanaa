@@ -191,6 +191,14 @@ a:hover {
 	display: block;
 }
 
-.card {
+.word-wrap {
 	word-wrap: break-word;
+}
+
+table {
+	table-layout: fixed;
+}
+
+.resultsWidth {
+	width: 85%;
 }
