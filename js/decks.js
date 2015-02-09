@@ -8,6 +8,7 @@
     var hour = 1000 * 60 * 60;
     var dueDate = Date.now() + hour;
     var latestDeck;
+    var iOS = /(iPad|iPhone|iPod)/g.test( navigator.userAgent );
 
     sanaa.checkCookie();
 
@@ -75,10 +76,9 @@
         window.localStorage.setItem("studyDeckId", $(this).data('id'));
     });
 
-    $("body").on("click", ".deck", function() {
+    $("body").on(iOS ? "touchstart" : "click", ".deck", function() {
         $(this).find(".deck-buttons").toggleClass("expand");
     });
-
 
     $('#deleteDeckModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget);// Button that triggered the modal
