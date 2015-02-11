@@ -250,10 +250,6 @@
         });
     });
 
-    $.get('./templates/deck_list_options.handlebars', function(response) {
-        dropdown = Handlebars.compile(response);
-     });
-
     $.get('./templates/create_card.handlebars', function(response) {
         var create = Handlebars.compile(response);
         var modal = $(create());
@@ -264,7 +260,7 @@
 
         modal.on("shown.bs.modal", function(event) {
             cfront.focus();
-            ul.html(dropdown(_.sortBy(data, "name")));
+            ul.html(listTemplate(_.sortBy(data, "name")));
             modal.find(".currentDeck").text(latestDeck.name);
         });
 
@@ -328,7 +324,7 @@
         $(".container").append(modal);
 
         modal.on("show.bs.modal", function(event) {
-            ul.html(dropdown(_.sortBy(data, "name")));
+            ul.html(listTemplate(_.sortBy(data, "name")));
             modal.find(".currentDeck").text(latestDeck.name);
             modal.find("#deck-name").val("").trigger("keyup");
         });
