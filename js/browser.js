@@ -36,13 +36,16 @@
 
     function refreshDeckList(activeDeck) {
         var previouslyActive = activeDeck || deckList.find(".active").text();
-        deckList.html(listTemplate(_.sortBy(data, "name")));
+        var newList = listTemplate(_.sortBy(data, "name"));
+        deckList.html(newList);
+        $(".deckPart").html(newList);
         if (previouslyActive !== "") {
             deckList.find("li:contains('"+ previouslyActive + "')").addClass("active");
         }
     }
 
     function refreshTaglist() {
+        var newTags;
         var previouslyActive = tagList.find(".active").text();
         var tags = _(data)
                     .pluck("cards") // all cards from all decks
@@ -58,7 +61,9 @@
                             _id:tag
                         };
                     }).value();
-        tagList.html(listTemplate(tags));
+        newTags = listTemplate(tags);
+        tagList.html(newTags);
+        $(".tagPart").html(newTags);
         if (previouslyActive !== "") {
             tagList.find(":contains('"+ previouslyActive + "')").addClass("active");
         }
@@ -78,16 +83,17 @@
         $("#moveCard").addClass("hidden");
     }
 
-    body.on("click", "#deckList a", function() {
+    body.on("click", "#deckList a, #mobileDropdown .deckPart a", function() {
         var id = $(this).data("id");
         selectedFilter = function() {
             return _.find(data, {_id:id}).cards;
         };
         latestDeck = _.find(data, {_id:id});
         printResults(_.sortBy(selectedFilter(), "front"));
+        $(".currentDeckBrowser").text(latestDeck.name);
     });
 
-    body.on("click", "#tagList a", function() {
+    body.on("click", "#tagList a, #mobileDropdown .tagPart a", function() {
         var tag = $(this).data("id");
         selectedFilter = function() {
             return _(data)
@@ -98,6 +104,7 @@
                 }).value();
         };
         printResults(_.sortBy(selectedFilter(), "front"));
+        $(".currentDeckBrowser").text(tag);
     });
 
     body.on("click", ".list a", function() {
@@ -114,6 +121,14 @@
             li.addClass("active");
             $("#searchInput").val("");
         }
+    });
+
+    body.on("click", ".clearList", function() {
+        $(".currentDeckBrowser").text("Select filter...");
+        selectedFilter = function() {
+            return _.flatten(_.pluck(data, "cards"));
+        };
+        printResults([]);
     });
 
     $.get('./templates/navigation.handlebars', function(response) {

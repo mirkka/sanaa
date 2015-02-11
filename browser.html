@@ -10,7 +10,7 @@
 
     <body>
         <div class="container margin">
-            <div class="leftMenu col-xs-4 margin border-right">
+            <div class="leftMenu col-sm-4 margin border-right">
                 <div class="row">
                     <strong>Deck</strong>
                     <ul class="list" id="deckList"></ul>
@@ -21,7 +21,24 @@
                 </div>
             </div>
 
-            <div class="col-xs-8 margin">
+            <div class="dropdown margin" id="mobileDropdown">
+                <button type="button" data-toggle="dropdown" role="button" class="text-right">
+                <span class="currentDeckBrowser pull-left">Select filter...</span>
+                <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li class="clearList">
+                        <a href="#" class="padding-reset">Select filter...</a>
+                    </li>
+                    <strong>Decks</strong>
+                    <div class="deckPart"></div>
+                    <div class="divider"></div>
+                    <strong>Tags</strong>
+                    <div class="tagPart"></div>
+                </ul>
+            </div>
+
+            <div class="col-sm-8 col-xs-12 margin">
                 <div class="row padding-bottom">
                     <div class="pull-right">
                         <button type="button" class="btn btn-default btn-xs" id="newCard" data-toggle="modal" data-target="#createCardmodal" title="Create New card">

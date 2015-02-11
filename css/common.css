@@ -23,6 +23,9 @@ body {
 	.header {
 		font-size: 18px;
 	}
+	#mobileDropdown {
+		display: none;
+	}
 }
 
 @media (max-width: 750px) {
@@ -37,7 +40,8 @@ body {
 		padding-top: 5px;
 	}
 	.deck-buttons.expand,
-	.exportBtn {
+	.exportBtn,
+	.leftMenu {
 		display: none;
 	}
 	.button-container button {
@@ -55,6 +59,23 @@ body {
 	.deck:nth-child(2n-1) {
 		background-color: rgb(240, 240, 240);
 	}
+	#mobileDropdown .dropdown-menu {
+		padding-left: 5px;
+		font-size: 1em;
+		padding-right: 5px;
+		word-wrap: break-word;
+		width: 100%;
+	}
+	table.margin-left,
+	form.margin-left {
+		margin-left: 0;
+	}
+}
+
+#mobileDropdown button {
+	width: 100%;
+	padding-bottom: 5px;
+	padding-top: 5px;
 }
 
 .button-container button {
@@ -120,7 +141,7 @@ a:hover {
 }
 
 .divider {
-	border-top: 1px solid black;
+	border-top: 1px solid #e5e5e5;;
 	padding-top: 0;
 }
 
@@ -141,7 +162,7 @@ a:hover {
 }
 
 .padding-reset {
-	padding: 0;
+	padding: 0!important;
 }
 
 .padding-top {
@@ -221,5 +242,5 @@ table {
 }
 
 .resultsWidth {
-	width: 85%;
+	width: 80%;
 }
