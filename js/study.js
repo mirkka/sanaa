@@ -16,6 +16,8 @@
     ];
     var data;
 
+    sanaa.checkCookie();
+
     sanaa.getAlldecks(function(allDecks) {
         data = allDecks;
     });

@@ -11,6 +11,8 @@
     var latestDeck;
     var listTemplate;
 
+    sanaa.checkCookie();
+
     sanaa.getAlldecks(function(allDecks) {
         data = allDecks;
         $.get('./templates/deck_list_options.handlebars', function(response) {
