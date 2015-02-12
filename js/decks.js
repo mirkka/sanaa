@@ -76,7 +76,8 @@
         window.localStorage.setItem("studyDeckId", $(this).data('id'));
     });
 
-    $("body").on(iOS ? "touchstart" : "click", ".deck", function() {
+    $("body").on(iOS ? "touchend" : "click", ".deck", function(event) {
+        if ($(event.target).is(".btn")) { return; } // prevent propagation on touch devices
         $(this).find(".deck-buttons").toggleClass("expand");
     });
 
