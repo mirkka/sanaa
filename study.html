@@ -12,30 +12,34 @@
         <div class="container margin">
             <div class="card word-wrap padding-left padding-right"></div>
 
-            <div class="row bottom-bg padding-bottom">
-                <div class="col-xs-6">
-                    Due: <span class="text-primary margin-right"><strong id="due"></strong></span>
-                </div>
-                <div class="col-xs-6">
-                    <span class="pull-right" id="deckName"></span>
-                </div>
-            </div>
-
-            <div class="row bottom-bg hidden" id="frontArea">
-                <div class="col-xs-4">
-                    <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#editCard">Edit</button>
-                </div>
-                <div class="col-xs-4 padding-bottom">
-                    <button type="button" class="btn btn-default btn-sm" id="answer">Show answer</button>
-                </div>
-            </div>
-
-            <div id="backArea">
-                <div class="row bottom-bg">
-                    <div class="col-xs-3">
-                        <button type="button" class="btn btn-default pull-left btn-sm" data-toggle="modal" data-target="#editCard">Edit</button>
+            <div class="bottom-area">
+                <div class="row bottom-bg padding-bottom">
+                    <div class="col-xs-6">
+                        Due: <span class="text-primary margin-right"><strong id="due"></strong></span>
                     </div>
-                    <div class="col-xs-6 padding-bottom text-center">
+                    <div class="col-xs-6">
+                        <span class="pull-right" id="deckName"></span>
+                    </div>
+                </div>
+
+                <div class="row bottom-bg hidden text-center" id="frontArea">
+                    <div class="padding-left">
+                        <button type="button" class="btn btn-default btn-sm pull-left" data-toggle="modal" data-target="#editCard">
+                            <i class="fa fa-pencil"></i>
+                        </button>
+                    </div>
+                    <div class="padding-bottom">
+                        <button type="button" class="btn btn-default btn-sm" id="answer">Show answer</button>
+                    </div>
+                </div>
+
+                <div class="row bottom-bg" id="backArea">
+                    <div class="padding-left">
+                        <button type="button" class="btn btn-default pull-left btn-sm" data-toggle="modal" data-target="#editCard">
+                            <i class="fa fa-pencil"></i>
+                        </button>
+                    </div>
+                    <div class="padding-bottom text-center">
                         <button type="button" class="btn btn-default btn-sm" id="again">
                             <i class="fa fa-refresh text-warning"></i>
                             Again
