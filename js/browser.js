@@ -123,6 +123,13 @@
         }
     });
 
+    body.on("click", "#mobileDropdown a", function() {
+        var li = $(this).parent();
+        $("#mobileDropdown li").removeClass("active");
+        li.addClass("active");
+        $("#searchInput").val("");
+    });
+
     body.on("click", ".clearList", function() {
         $(".currentDeckBrowser").text("Select filter...");
         selectedFilter = function() {
@@ -146,8 +153,8 @@
 
     function search() {
         var selectedData = selectedFilter();
-        var needle = $("#searchInput").val();
-        if (needle === "" && !$(".list li").is(".active")) {
+        var needle = $("#searchInput").val().toLowerCase();
+        if (needle === "" && !$(".list li, #mobileDropdown li").is(".active")) {
             printResults([]);
             return;
         }
@@ -157,18 +164,18 @@
             return;
         }
         var filteredFronts = _.filter(selectedData, function(card) {
-            return card.front.indexOf(needle) > -1;
+            return card.front.toLowerCase().indexOf(needle) > -1;
         });
         filteredFronts = _.sortBy(filteredFronts, "front");
         filteredFronts = _.sortBy(filteredFronts, function(x) {
-            return x.front.indexOf(needle);
+            return x.front.toLowerCase().indexOf(needle);
         });
         var filteredBacks = _.filter(selectedData, function(card) {
-            return card.back.indexOf(needle) > -1;
+            return card.back.toLowerCase().indexOf(needle) > -1;
         });
         filteredBacks = _.sortBy(filteredBacks, "back");
         filteredBacks = _.sortBy(filteredBacks, function(y) {
-            return y.back.indexOf(needle);
+            return y.back.toLowerCase().indexOf(needle);
         });
 
         printResults(_.unique(filteredFronts.concat(filteredBacks)));
@@ -271,6 +278,7 @@
         var cfront = modal.find("#front");
         var cback = modal.find("#back");
         var ul = modal.find(".deckDropdown");
+        var isAdded = false;
         $(".container").append(modal);
 
         modal.on("shown.bs.modal", function(event) {
@@ -297,6 +305,7 @@
             cfront.focus();
             sanaa.createCard(deckId, card, function(response) {
                 var deck = _.find(data, {_id : deckId});
+                isAdded = true;
                 deck.cards.push(response);
                 cback.val("");
                 cfront.val("");
@@ -327,8 +336,10 @@
         });
 
         modal.on('hidden.bs.modal', function () {
-            search();
-            refreshTaglist();
+            if (isAdded) {
+                search();
+                refreshTaglist();
+            }
         });
     });
 
