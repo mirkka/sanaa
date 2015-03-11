@@ -15,6 +15,7 @@
         day * 7
     ];
     var data;
+    Origami.fastclick(document.body);
 
     sanaa.checkCookie();
 

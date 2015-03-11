@@ -1,4 +1,5 @@
 (function() {
+	Origami.fastclick(document.body);
 
 	if ($.cookie('token')) {
 		window.location.href = "./index.html";

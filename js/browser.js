@@ -11,6 +11,8 @@
     var latestDeck;
     var listTemplate;
 
+    Origami.fastclick(document.body);
+
     sanaa.checkCookie();
 
     sanaa.getAlldecks(function(allDecks) {

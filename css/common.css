@@ -63,6 +63,10 @@ body {
         padding-top: 5px;
     }
 
+    .deck-buttons button {
+        padding: 6px 10px;
+    }
+
     .exportBtn,
     .leftMenu {
         display: none;

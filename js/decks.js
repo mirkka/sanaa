@@ -10,6 +10,8 @@
     var latestDeck;
     var iOS = /(iPad|iPhone|iPod)/g.test( navigator.userAgent );
 
+    Origami.fastclick(document.body);
+
     sanaa.checkCookie();
 
     function createList() {
