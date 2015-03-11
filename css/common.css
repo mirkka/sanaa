@@ -17,9 +17,11 @@ body {
         line-height: 1.5;
         border-radius: 3px;
     }
-    .deck-buttons {
-        text-align: right;
+
+    .study,.edit,.delete,.addCard {
+        margin-right: 7px;
     }
+
     .header {
         font-size: 18px;
     }
@@ -29,6 +31,22 @@ body {
     .bottom-area {
         padding-top: 100px;
     }
+
+    #list {
+        padding: 0 12px;
+    }
+
+    .deck {
+        cursor: pointer;
+    }
+}
+
+.deck-buttons.expand {
+    display: none;
+}
+
+.deck:nth-child(2n-1) {
+    background-color: rgb(240, 240, 240);
 }
 
 @media (max-width: 750px) {
@@ -44,11 +62,12 @@ body {
         text-align: left;
         padding-top: 5px;
     }
-    .deck-buttons.expand,
+
     .exportBtn,
     .leftMenu {
         display: none;
     }
+
     .button-container button {
         font-size: 0.9em;
         padding-bottom: 10px;
@@ -56,14 +75,12 @@ body {
     }
     .deck-buttons .btn {
         font-size: 0.9em;
-        padding: 5px 15px;
     }
+
     .header {
         font-size: 1.3em;
     }
-    .deck:nth-child(2n-1) {
-        background-color: rgb(240, 240, 240);
-    }
+
     #mobileDropdown .dropdown-menu {
         padding-left: 5px;
         font-size: 1em;

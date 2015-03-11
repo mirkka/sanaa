@@ -1,10 +1,11 @@
 <div class="row padding-top padding-bottom deck">
-	<div class="col-sm-5 col-xs-7">{{name}}</div>
+	<div class="col-sm-9 col-xs-7">{{name}}</div>
 	<div class="col-sm-1 col-xs-2 text-danger text-center"><strong>{{due}}</strong></div>
 	<div class="col-sm-1 col-xs-3 text-primary text-center">{{cards.length}}</div>
-	<div class="col-sm-5 col-xs-12 deck-buttons expand">
-		<a href="./study.html" class="btn btn-primary btn-xs study" role="button" {{#unless due}}disabled="disabled"{{/unless}} data-id="{{_id}}">Study</a>
-		<button type="button" class="btn btn-default btn-xs edit" data-toggle="modal" data-target="#editDeckModal" data-id="{{_id}}">Edit</button>
-		<button type="button" class="btn btn-default btn-xs delete" data-toggle="modal" data-target="#deleteDeckModal" data-id="{{_id}}">Delete</button>
+	<div class="col-sm-12 col-xs-12 deck-buttons expand padding-top">
+		<a href="./study.html" class="btn btn-primary study" role="button" {{#unless due}}disabled="disabled"{{/unless}} data-id="{{_id}}">Study</a>
+		<button type="button" class="btn btn-default addCard" data-toggle="modal" data-target="#createCardmodal">Add card</button>
+		<button type="button" class="btn btn-default edit" data-toggle="modal" data-target="#editDeckModal" data-id="{{_id}}">Edit</button>
+		<button type="button" class="btn btn-default delete" data-toggle="modal" data-target="#deleteDeckModal" data-id="{{_id}}">Delete</button>
 	</div>
 </div>
